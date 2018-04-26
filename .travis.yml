@@ -1,0 +1,19 @@
+language: php
+
+cache:
+    directories:
+        $HOME/.composer/cache/files
+
+php:
+    - 7.2
+
+install:
+    - php -n ~/.phpenv/versions/$(phpenv version-name)/bin/composer update
+    - php -n ~/.phpenv/versions/$(phpenv version-name)/bin/composer require php-coveralls/php-coveralls ^2.0
+
+script:
+    - php -n ~/.phpenv/versions/$(phpenv version-name)/bin/composer lint
+    - phpunit --coverage-clover build/logs/clover.xml
+
+after_success:
+    - travis_retry php -n vendor/bin/php-coveralls
