@@ -17,10 +17,29 @@ class VanioApiExtension extends Extension
         $config = $this->processConfiguration(new Configuration, $configs);
         $loader = new XmlFileLoader($container, new FileLocator(sprintf('%s/../Resources/config', __DIR__)));
         $loader->load('config.xml');
-        $container->setParameter('vanio_api', $config);
+        $this->setContainerRecursiveParameter($container, 'vanio_api', $config);
 
-        foreach ($config as $key => $value) {
-            $container->setParameter("vanio_api.$key", $value);
+        if ($config['access_denied_listener']['enabled']) {
+            $container
+                ->getDefinition('vanio_api.security.access_denied_listener')
+                ->setAbstract(false)
+                ->addTag('kernel.event_subscriber');
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string $name
+     * @param mixed $value
+     */
+    private function setContainerRecursiveParameter(ContainerBuilder $container, string $name, $value): void
+    {
+        $container->setParameter($name, $value);
+
+        if (is_array($value)) {
+            foreach ($value as $k => $v) {
+                $this->setContainerRecursiveParameter($container, "$name.$k", $v);
+            }
         }
     }
 }
