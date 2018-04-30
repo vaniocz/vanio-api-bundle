@@ -2,30 +2,28 @@
 namespace Vanio\ApiBundle\Specification;
 
 use Happyr\DoctrineSpecification\Logic\AndX;
-use Vanio\ApiBundle\Specification\Properties;
 use Vanio\DomainBundle\Doctrine\Specification;
 use Vanio\DomainBundle\Pagination\OrderBy;
-use Vanio\DomainBundle\Pagination\PageSpecification;
 
 class Filter extends Specification
 {
     /** @var OrderBy */
     private $orderBy;
 
-    /** @var PageSpecification */
-    private $page;
+    /** @var Limit */
+    private $limit;
 
     /** @var Properties */
     private $properties;
 
     public function __construct(
         OrderBy $orderBy,
-        PageSpecification $page,
+        Limit $limit,
         Properties $properties,
         ?string $dqlAlias = null
     ) {
         $this->orderBy = $orderBy;
-        $this->page = $page;
+        $this->limit = $limit;
         $this->properties = $properties;
         $this->dqlAlias = $dqlAlias;
     }
@@ -35,9 +33,9 @@ class Filter extends Specification
         return $this->orderBy;
     }
 
-    public function page(): PageSpecification
+    public function limit(): Limit
     {
-        return $this->page;
+        return $this->limit;
     }
 
     public function properties(): Properties
@@ -47,6 +45,6 @@ class Filter extends Specification
 
     public function buildSpecification(string $dqlAlias): AndX
     {
-        return new AndX($this->orderBy, $this->page, $this->properties);
+        return new AndX($this->orderBy, $this->limit, $this->properties);
     }
 }

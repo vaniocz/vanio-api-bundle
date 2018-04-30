@@ -3,11 +3,14 @@
     <parameters>
         <parameter key="vanio_api.security.access_denied_listener.class">Vanio\ApiBundle\Security\AccessDeniedListener</parameter>
         <parameter key="vanio_api.request.route_not_found_listener.class">Vanio\ApiBundle\Request\RouteNotFoundListener</parameter>
-        <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
+        <parameter key="vanio_api.request.limit_param_converter.class">Vanio\ApiBundle\Request\LimitParamConverter</parameter>
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
+        <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
         <parameter key="vanio_api.serializer.scalar_object_handler.class">Vanio\ApiBundle\Serializer\ScalarObjectHandler</parameter>
         <parameter key="vanio_api.serializer.uuid_handler.class">Vanio\ApiBundle\Serializer\UuidHandler</parameter>
+        <parameter key="vanio_api.serializer.file_handler.class">Vanio\ApiBundle\Serializer\FileHandler</parameter>
+        <parameter key="vanio_api.serializer.image_handler.class">Vanio\ApiBundle\Serializer\ImageHandler</parameter>
     </parameters>
 
     <services>
@@ -21,13 +24,18 @@
             <argument>%vanio_api.formats%</argument>
         </service>
 
-        <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%" public="false">
-            <argument>%vanio_domain.pagination_default_options%</argument>
-            <tag name="request.param_converter" priority="1" converter="api_filter"/>
+        <service id="vanio_api.request.limit_param_converter" class="%vanio_api.request.limit_param_converter.class%" public="false">
+            <argument>%vanio_api.limit_default_options%</argument>
+            <tag name="request.param_converter" converter="limit"/>
         </service>
 
         <service id="vanio_api.request.properties_param_converter" class="%vanio_api.request.properties_param_converter.class%" public="false">
             <tag name="request.param_converter" converter="properties"/>
+        </service>
+
+        <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%" public="false">
+            <argument>%vanio_api.limit_default_options%</argument>
+            <tag name="request.param_converter" priority="1" converter="api_filter"/>
         </service>
 
         <service id="vanio_api.serializer.properties_exclusion_strategy" class="%vanio_api.serializer.properties_exclusion_strategy.class%" public="true">
@@ -40,6 +48,14 @@
         </service>
 
         <service id="vanio_api.serializer.uuid_handler" class="%vanio_api.serializer.uuid_handler.class%" public="false">
+            <tag name="jms_serializer.subscribing_handler"/>
+        </service>
+
+        <service id="vanio_api.serializer.file_handler" class="%vanio_api.serializer.file_handler.class%" public="false">
+            <tag name="jms_serializer.subscribing_handler"/>
+        </service>
+
+        <service id="vanio_api.serializer.image_handler" class="%vanio_api.serializer.image_handler.class%" public="false">
             <tag name="jms_serializer.subscribing_handler"/>
         </service>
     </services>

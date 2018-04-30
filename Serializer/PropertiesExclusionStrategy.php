@@ -2,6 +2,7 @@
 namespace Vanio\ApiBundle\Serializer;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use JMS\Serializer\Context;
 use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
 use JMS\Serializer\Metadata\ClassMetadata;
@@ -15,9 +16,6 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
 
     /** @var ClassMetadata[] */
     private $classMetadatas;
-
-    /** @var mixed[] */
-    private $propertySerializedNames;
 
     /** @var mixed[] */
     private $exposedProperties = [];
@@ -56,8 +54,12 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
     {
         $properties = $context->attributes->get('properties')->get();
         $properties = Arrays::getReference($properties, $context->getCurrentPath()) ?? [];
-        $classMetadata = $this->doctrine->getManagerForClass($class)->getClassMetadata($class);
-        $basicProperties = array_flip($classMetadata->getFieldNames());
+        $basicProperties = [];
+
+        foreach ($this->getClassMetadata($class)->fieldMappings as $fieldMapping) {
+            $basicProperties[$fieldMapping['declaredField'] ?? $fieldMapping['fieldName']] = true;
+        }
+
         $additionalProperties = [];
         $excludedProperties = [];
 
@@ -84,5 +86,10 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
         }
 
         return array_diff_key($exposedProperties + $additionalProperties, $excludedProperties);
+    }
+
+    private function getClassMetadata(string $class): ClassMetadataInfo
+    {
+        return $this->doctrine->getManagerForClass($class)->getClassMetadata($class);
     }
 }

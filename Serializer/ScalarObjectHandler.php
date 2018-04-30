@@ -38,12 +38,12 @@ class ScalarObjectHandler implements SubscribingHandlerInterface, EventSubscribe
 
     public function onPreSerialize(PreSerializeEvent $event): void
     {
-        $this->resolveScalarObjectTypeName($event);
+        $this->assignScalarObjectTypeName($event);
     }
 
     public function onPreDeserialize(PreDeserializeEvent $event): void
     {
-        $this->resolveScalarObjectTypeName($event);
+        $this->assignScalarObjectTypeName($event);
     }
 
     /**
@@ -86,7 +86,7 @@ class ScalarObjectHandler implements SubscribingHandlerInterface, EventSubscribe
     /**
      * @param PreSerializeEvent|PreDeserializeEvent $event
      */
-    private function resolveScalarObjectTypeName(Event $event): void
+    private function assignScalarObjectTypeName(Event $event): void
     {
         if ($event->getObject() instanceof ScalarObject) {
             $event->setType(ScalarObject::class, [get_class($event->getObject())]);

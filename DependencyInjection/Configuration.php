@@ -25,6 +25,12 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                 ->end()
+                ->arrayNode('limit_default_options')
+                    ->children()
+                        ->integerNode('default_limit')->end()
+                    ->end()
+                    ->addDefaultsIfNotSet()
+                ->end()
             ->end();
 
         return $treeBuilder;
