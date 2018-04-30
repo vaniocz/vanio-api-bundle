@@ -2,6 +2,7 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
         <parameter key="vanio_api.security.access_denied_listener.class">Vanio\ApiBundle\Security\AccessDeniedListener</parameter>
+        <parameter key="vanio_api.request.route_not_found_listener.class">Vanio\ApiBundle\Request\RouteNotFoundListener</parameter>
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
@@ -10,10 +11,14 @@
     </parameters>
 
     <services>
+        <service id="vanio_api.request.route_not_found_listener" class="%vanio_api.request.route_not_found_listener.class%" public="false" abstract="true">
+            <argument>%vanio_api.formats%</argument>
+        </service>
+
         <service id="vanio_api.security.access_denied_listener" class="%vanio_api.security.access_denied_listener.class%" public="false" abstract="true">
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="security.authentication.trust_resolver"/>
-            <argument>%vanio_api.access_denied_listener.formats%</argument>
+            <argument>%vanio_api.formats%</argument>
         </service>
 
         <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%" public="false">

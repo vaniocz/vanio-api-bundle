@@ -18,12 +18,18 @@ class VanioApiExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(sprintf('%s/../Resources/config', __DIR__)));
         $loader->load('config.xml');
         $this->setContainerRecursiveParameter($container, 'vanio_api', $config);
+        $subscribers = [
+            'route_not_found_listener' => 'vanio_api.request.route_not_found_listener',
+            'access_denied_listener' => 'vanio_api.security.access_denied_listener',
+        ];
 
-        if ($config['access_denied_listener']['enabled']) {
-            $container
-                ->getDefinition('vanio_api.security.access_denied_listener')
-                ->setAbstract(false)
-                ->addTag('kernel.event_subscriber');
+        foreach ($subscribers as $name => $id) {
+            if ($config[$name]) {
+                $container
+                    ->getDefinition($id)
+                    ->setAbstract(false)
+                    ->addTag('kernel.event_subscriber');
+            }
         }
     }
 

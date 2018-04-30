@@ -11,21 +11,18 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder;
         $treeBuilder->root('vanio_api')
             ->children()
-                ->arrayNode('access_denied_listener')
-                    ->canBeDisabled()
-                    ->children()
-                        ->arrayNode('formats')
-                            ->prototype('scalar')->end()
-                            ->defaultValue(['json'])
-                            ->beforeNormalization()
-                                ->ifTrue(function ($value) {
-                                    return !is_array($value);
-                                })
-                                ->then(function ($value) {
-                                    return [$value];
-                                })
-                            ->end()
-                        ->end()
+                ->booleanNode('route_not_found_listener')->defaultTrue()->end()
+                ->booleanNode('access_denied_listener')->defaultTrue()->end()
+                ->arrayNode('formats')
+                    ->prototype('scalar')->end()
+                    ->defaultValue(['json'])
+                    ->beforeNormalization()
+                        ->ifTrue(function ($value) {
+                            return !is_array($value);
+                        })
+                        ->then(function ($value) {
+                            return [$value];
+                        })
                     ->end()
                 ->end()
             ->end();

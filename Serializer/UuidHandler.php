@@ -5,6 +5,7 @@ use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\VisitorInterface;
 use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class UuidHandler implements SubscribingHandlerInterface
 {
@@ -13,7 +14,7 @@ class UuidHandler implements SubscribingHandlerInterface
         return (string) $uuid;
     }
 
-    public function deserialize(VisitorInterface $visitor, string $value): Uuid
+    public function deserialize(VisitorInterface $visitor, string $value): UuidInterface
     {
         return Uuid::fromString($value);
     }

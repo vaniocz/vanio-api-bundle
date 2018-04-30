@@ -32,7 +32,6 @@ class Properties implements QueryModifier
 
     public static function fromString(string $properties, ?string $dqlAlias = null): self
     {
-        $propertyPaths = [];
         $tokens = preg_split(
             '~\.?({.*?})\.?|\s*(,)\s*~',
             trim($properties),
