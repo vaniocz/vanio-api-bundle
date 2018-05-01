@@ -8,9 +8,12 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RouteNotFoundListener implements EventSubscriberInterface
 {
-    /** @var array */
+    /** @var string[] */
     private $formats;
 
+    /**
+     * @param mixed[] $formats
+     */
     public function __construct(array $formats)
     {
         $this->formats = array_combine($formats, $formats);

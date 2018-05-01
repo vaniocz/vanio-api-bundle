@@ -8,11 +8,6 @@ use Vanio\DomainBundle\Model\File;
 
 class FileHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @param VisitorInterface $visitor
-     * @param File $file
-     * @return string
-     */
     public function serialize(VisitorInterface $visitor, File $file): string
     {
         return $file->fileName();

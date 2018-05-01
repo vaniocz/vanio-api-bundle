@@ -8,11 +8,6 @@ use Vanio\DomainBundle\Model\Image;
 
 class ImageHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @param VisitorInterface $visitor
-     * @param Image $image
-     * @return string
-     */
     public function serialize(VisitorInterface $visitor, Image $image): string
     {
         return $image->fileName();

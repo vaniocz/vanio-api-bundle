@@ -1,19 +1,10 @@
 <?php
 namespace Vanio\ApiBundle\Specification;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 use Happyr\DoctrineSpecification\Query\QueryModifier;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\ConfigurableRequirementsInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Routing\Router;
 use Vanio\DomainBundle\Doctrine\QueryBuilderUtility;
-use Vanio\DomainBundle\Doctrine\ResultTransformer;
-use Vanio\DomainBundle\Specification\With;
-use Vanio\Stdlib\Arrays;
 
 class Properties implements QueryModifier
 {
@@ -68,6 +59,7 @@ class Properties implements QueryModifier
     /**
      * @param QueryBuilder $queryBuilder
      * @param string $dqlAlias
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      */
     public function modify(QueryBuilder $queryBuilder, $dqlAlias): void
     {
@@ -76,9 +68,15 @@ class Properties implements QueryModifier
         $this->joinAssociations($queryBuilder, $classMetadata, $this->dqlAlias ?? $dqlAlias, $this->properties);
     }
 
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param ClassMetadata $classMetadata
+     * @param string $dqlAlias
+     * @param mixed[] $properties
+     */
     private function joinAssociations(
         QueryBuilder $queryBuilder,
-        ClassMetadataInfo $classMetadata,
+        ClassMetadata $classMetadata,
         string $dqlAlias,
         array $properties
     ): void {

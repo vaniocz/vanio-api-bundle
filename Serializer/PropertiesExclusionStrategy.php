@@ -32,13 +32,16 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
         return false;
     }
 
-    public function shouldSkipProperty(PropertyMetadata $property, Context $context)
+    public function shouldSkipProperty(PropertyMetadata $property, Context $context): bool
     {
         $exposedProperties = $this->getExposedProperties($property->class, $context);
 
         return !isset($exposedProperties[$property->name]);
     }
-    
+
+    /**
+     * @return mixed[]
+     */
     private function getExposedProperties(string $class, Context $context): array
     {
         $cacheKey = json_encode([$context->attributes->get('properties')->get(), $context->getCurrentPath()]);
@@ -50,6 +53,9 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
         return $this->exposedProperties[$cacheKey];
     }
 
+    /**
+     * @return mixed[]
+     */
     private function resolveExposedProperties(string $class, Context $context): array
     {
         $properties = $context->attributes->get('properties')->get();

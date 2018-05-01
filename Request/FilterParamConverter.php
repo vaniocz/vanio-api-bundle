@@ -5,7 +5,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Vanio\ApiBundle\Specification\Filter;
-use Vanio\ApiBundle\Specification\Properties;
 use Vanio\DomainBundle\Pagination\OrderByParamConverter;
 
 class FilterParamConverter implements ParamConverterInterface
@@ -13,6 +12,9 @@ class FilterParamConverter implements ParamConverterInterface
     /** @var mixed[] */
     private $options;
 
+    /**
+     * @param mixed[] $options
+     */
     public function __construct(array $options = [])
     {
         $this->options = $options + ['dql_alias' => null];

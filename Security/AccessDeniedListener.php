@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
 class AccessDeniedListener implements EventSubscriberInterface
 {

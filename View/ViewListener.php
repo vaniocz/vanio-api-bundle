@@ -21,7 +21,7 @@ class ViewListener implements EventSubscriberInterface
     /** @var SerializationContextFactoryInterface */
     private $serializationContextFactory;
 
-    /** @var SerializationContextFactoryInterface */
+    /** @var PropertiesExclusionStrategy */
     private $propertiesExclusionStrategy;
 
     public function __construct(
@@ -80,6 +80,10 @@ class ViewListener implements EventSubscriberInterface
         return $serializationContext;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed[]|null
+     */
     private function guessProperties(Request $request): ?array
     {
         $properties = $request->attributes->get('properties');

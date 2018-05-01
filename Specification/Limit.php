@@ -2,12 +2,7 @@
 namespace Vanio\ApiBundle\Specification;
 
 use Doctrine\ORM\AbstractQuery;
-use Happyr\DoctrineSpecification\Logic\AndX;
 use Happyr\DoctrineSpecification\Result\ResultModifier;
-use Vanio\ApiBundle\Specification\Properties;
-use Vanio\DomainBundle\Doctrine\Specification;
-use Vanio\DomainBundle\Pagination\OrderBy;
-use Vanio\DomainBundle\Pagination\PageSpecification;
 
 class Limit implements ResultModifier
 {
@@ -34,7 +29,7 @@ class Limit implements ResultModifier
     }
 
     /**
-     * @param Query $query
+     * @param Query|AbstractQuery $query
      */
     public function modify(AbstractQuery $query): void
     {

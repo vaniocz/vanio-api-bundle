@@ -18,7 +18,7 @@ class View
     /** @var string|null */
     private $format;
 
-    /** @var array|null */
+    /** @var mixed[]|null */
     private $properties;
 
     /** @var SerializationContext|null */
@@ -44,6 +44,10 @@ class View
         return $this->data;
     }
 
+    /**
+     * @param mixed $data
+     * @return $this
+     */
     public function setData($data): self
     {
         $this->data = $data;
@@ -68,9 +72,13 @@ class View
         return $this->headers;
     }
 
+    /**
+     * @param mixed[] $headers
+     * @return $this
+     */
     public function setHeaders(array $headers): self
     {
-        $this->headers = $headers;
+        $this->headers = new HeaderBag($headers);
 
         return $this;
     }
@@ -87,14 +95,23 @@ class View
         return $this;
     }
 
+    /**
+     * @return mixed[]|null
+     */
     public function properties(): ?array
     {
         return $this->properties;
     }
 
+    /**
+     * @param mixed[]|null $properties
+     * @return $this
+     */
     public function setProperties(?array $properties): self
     {
         $this->properties = $properties;
+
+        return $this;
     }
 
     public function serializationContext(): ?SerializationContext

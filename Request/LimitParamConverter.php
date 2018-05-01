@@ -8,7 +8,7 @@ use Vanio\ApiBundle\Specification\Limit;
 
 class LimitParamConverter implements ParamConverterInterface
 {
-    const DEFAULT_OPTIONS = [
+    private const DEFAULT_OPTIONS = [
         'limit_parameter' => 'limit',
         'offset_parameter' => 'offset',
         'default_limit' => 100,

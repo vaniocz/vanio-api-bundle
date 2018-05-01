@@ -17,6 +17,8 @@ class AppKernel extends Kernel
     {
         return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle,
+            new Symfony\Bundle\SecurityBundle\SecurityBundle,
+            new JMS\SerializerBundle\JMSSerializerBundle,
             new Vanio\ApiBundle\VanioApiBundle,
         ];
     }
@@ -41,9 +43,15 @@ class AppKernel extends Kernel
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
-        $container->loadFromExtension('framework', [
-            'secret' => 'secret',
-            'serializer' => null,
+        $container->loadFromExtension('framework', ['secret' => 'secret']);
+        $container->loadFromExtension('security', [
+            'firewalls' => [
+                'test' => ['security' => false],
+            ],
+            'providers' => [
+                'in_memory' => ['memory' => []],
+            ],
         ]);
+        $container->register('doctrine', 'stdClass');
     }
 }
