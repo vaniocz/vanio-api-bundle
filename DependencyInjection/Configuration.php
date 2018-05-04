@@ -11,7 +11,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder;
         $treeBuilder->root('vanio_api')
             ->children()
-                ->booleanNode('route_not_found_listener')->defaultTrue()->end()
+                ->booleanNode('format_listener')->defaultTrue()->end()
+                ->booleanNode('request_body_listener')->defaultTrue()->end()
                 ->booleanNode('access_denied_listener')->defaultTrue()->end()
                 ->arrayNode('formats')
                     ->prototype('scalar')->end()

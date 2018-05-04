@@ -2,7 +2,6 @@
 namespace Vanio\ApiBundle\Security;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -20,29 +19,23 @@ class AccessDeniedListener implements EventSubscriberInterface
     /** @var AuthenticationTrustResolver */
     private $authenticationTrustResolver;
 
-    /** @var string[] */
-    private $formats;
-
     /**
      * @param TokenStorageInterface $tokenStorage
      * @param AuthenticationTrustResolver $authenticationTrustResolver
-     * @param string[] $formats
      */
     public function __construct(
         TokenStorageInterface $tokenStorage,
-        AuthenticationTrustResolver $authenticationTrustResolver,
-        array $formats
+        AuthenticationTrustResolver $authenticationTrustResolver
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->authenticationTrustResolver = $authenticationTrustResolver;
-        $this->formats = array_combine($formats, $formats);
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event): void
     {
         static $handling;
 
-        if ($handling || !$this->isRequestInApiFormat($event->getRequest())) {
+        if ($handling || $event->getRequest()->getRequestFormat() === 'html') {
             return;
         }
 
@@ -67,11 +60,6 @@ class AccessDeniedListener implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [KernelEvents::EXCEPTION => ['onKernelException', 5]];
-    }
-
-    private function isRequestInApiFormat(Request $request): bool
-    {
-        return isset($this->formats[$request->getRequestFormat()]) || isset($this->formats[$request->getContentType()]);
     }
 
     private function createUnauthorizedException(): HttpException

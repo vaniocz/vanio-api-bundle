@@ -19,7 +19,8 @@ class VanioApiExtension extends Extension
         $loader->load('config.xml');
         $this->setContainerRecursiveParameter($container, 'vanio_api', $config);
         $subscribers = [
-            'route_not_found_listener' => 'vanio_api.request.route_not_found_listener',
+            'format_listener' => 'vanio_api.request.format_listener',
+            'request_body_listener' => 'vanio_api.request.request_body_listener',
             'access_denied_listener' => 'vanio_api.security.access_denied_listener',
         ];
 
