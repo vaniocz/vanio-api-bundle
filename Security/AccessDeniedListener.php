@@ -19,10 +19,6 @@ class AccessDeniedListener implements EventSubscriberInterface
     /** @var AuthenticationTrustResolver */
     private $authenticationTrustResolver;
 
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     * @param AuthenticationTrustResolver $authenticationTrustResolver
-     */
     public function __construct(
         TokenStorageInterface $tokenStorage,
         AuthenticationTrustResolver $authenticationTrustResolver

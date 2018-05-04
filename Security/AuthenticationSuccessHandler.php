@@ -1,7 +1,6 @@
 <?php
 namespace Vanio\ApiBundle\Security;
 
-use FOS\UserBundle\Model\UserInterface;
 use JMS\Serializer\Exception\UnsupportedFormatException;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,12 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
     /** @var SerializerInterface */
     private $serializer;
 
-    public function __construct(HttpUtils $httpUtils, array $options = [], SerializerInterface $serializer)
+    /**
+     * @param HttpUtils $httpUtils
+     * @param mixed[] $options
+     * @param SerializerInterface $serializer
+     */
+    public function __construct(HttpUtils $httpUtils, array $options, SerializerInterface $serializer)
     {
         parent::__construct($httpUtils, $options);
         $this->serializer = $serializer;

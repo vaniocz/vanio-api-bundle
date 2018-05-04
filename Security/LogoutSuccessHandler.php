@@ -12,7 +12,7 @@ class LogoutSuccessHandler extends DefaultLogoutSuccessHandler
     /** @var SerializerInterface */
     private $serializer;
 
-    public function __construct(HttpUtils $httpUtils, string $targetUrl = '/', SerializerInterface $serializer)
+    public function __construct(HttpUtils $httpUtils, string $targetUrl, SerializerInterface $serializer)
     {
         parent::__construct($httpUtils, $targetUrl);
         $this->serializer = $serializer;

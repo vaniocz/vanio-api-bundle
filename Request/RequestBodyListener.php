@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -22,7 +21,7 @@ class RequestBodyListener implements EventSubscriberInterface
 
     /**
      * @param SerializerInterface $serializer
-     * @param mixed[] $formats
+     * @param string[] $formats
      */
     public function __construct(SerializerInterface $serializer, array $formats)
     {

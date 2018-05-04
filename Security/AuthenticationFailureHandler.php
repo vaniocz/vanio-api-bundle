@@ -5,7 +5,6 @@ use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
@@ -20,11 +19,19 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
     /** @var TranslatorInterface|null */
     private $translator;
 
+    /**
+     * @param HttpKernelInterface $httpKernel
+     * @param HttpUtils $httpUtils
+     * @param mixed[] $options
+     * @param LoggerInterface|null $logger
+     * @param SerializerInterface $serializer
+     * @param TranslatorInterface $translator
+     */
     public function __construct(
         HttpKernelInterface $httpKernel,
         HttpUtils $httpUtils,
-        array $options = [],
-        LoggerInterface $logger = null,
+        array $options,
+        ?LoggerInterface $logger,
         SerializerInterface $serializer,
         TranslatorInterface $translator
     ) {
