@@ -22,6 +22,8 @@
     <services>
         <defaults public="false"/>
 
+        <service id="security.authentication.listener.api_form" class="Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener" parent="security.authentication.listener.abstract" public="false" abstract="true"/>
+
         <service id="security.authentication.success_handler" class="%security.authentication.success_handler.class%" abstract="true">
             <argument type="service" id="security.http_utils"/>
             <argument type="collection"/>

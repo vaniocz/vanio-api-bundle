@@ -10,9 +10,9 @@ class VanioApiExtensionTest extends KernelTestCase
         static::bootKernel();
         $config = static::$kernel->getContainer()->getParameter('vanio_api');
         $this->assertEquals([
-            'format_listener' => true,
-            'request_body_listener' => true,
-            'access_denied_listener' => true,
+            'format_listener' => false,
+            'request_body_listener' => false,
+            'access_denied_listener' => false,
             'formats' => ['json'],
             'limit_default_options' => [],
         ], $config);

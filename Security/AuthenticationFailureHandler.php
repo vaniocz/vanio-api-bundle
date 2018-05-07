@@ -44,7 +44,7 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
     {
         if ($request->getRequestFormat() !== 'html') {
             try {
-                $message = $this->translator->trans(
+                $error = $this->translator->trans(
                     $exception->getMessageKey(),
                     $exception->getMessageData(),
                     'security'
@@ -52,7 +52,7 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
                 $data = [
                     'code' => 401,
                     'message' => 'Unauthorized',
-                    'errors' => [$message],
+                    'errors' => [$error],
                 ];
                 $content = $this->serializer->serialize($data, $request->getRequestFormat());
 
@@ -60,6 +60,6 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
             } catch (UnsupportedFormatException $e) {}
         }
 
-        return parent::onAuthenticationSuccess($request, $token);
+        return parent::onAuthenticationFailure($request, $exception);
     }
 }
