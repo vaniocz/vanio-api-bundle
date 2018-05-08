@@ -5,6 +5,7 @@ use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
 use JMS\Serializer\VisitorInterface;
 use Vanio\DomainBundle\Model\File;
+use Vanio\DomainBundle\Model\Image;
 
 class FileHandler implements SubscribingHandlerInterface
 {
@@ -21,12 +22,14 @@ class FileHandler implements SubscribingHandlerInterface
         $subscribingMethods = [];
 
         foreach (['json', 'xml', 'yml'] as $format) {
-            $subscribingMethods[] = [
-                'type' => File::class,
-                'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => $format,
-                'method' => 'serialize',
-            ];
+            foreach ([File::class, Image::class] as $type) {
+                $subscribingMethods[] = [
+                    'type' => $type,
+                    'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                    'format' => $format,
+                    'method' => 'serialize',
+                ];
+            }
         }
 
         return $subscribingMethods;

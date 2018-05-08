@@ -55,7 +55,8 @@ class ViewListener implements EventSubscriberInterface
             $headers['Content-Type'] = $request->getMimeType($format);
         }
 
-        $event->setResponse(new Response($content, $view->statusCode(), $headers));
+        $statusCode = $view->statusCode() ?? is_array($view->data()) && !empty($view->data()['errors']) ? 422 : 200;
+        $event->setResponse(new Response($content, $statusCode, $headers));
     }
 
     /**
@@ -72,7 +73,9 @@ class ViewListener implements EventSubscriberInterface
             $serializationContext = $this->serializationContextFactory->createSerializationContext();
         }
 
-        if ($properties = $view->properties() ?? $this->guessProperties($request)) {
+        $properties = $view->properties() ?? $this->guessProperties($request);
+
+        if ($properties !== null) {
             $serializationContext->addExclusionStrategy($this->propertiesExclusionStrategy);
             $serializationContext->attributes->set('properties', $properties);
         }

@@ -9,7 +9,7 @@ class View
     /** @var mixed */
     private $data;
 
-    /** @var int */
+    /** @var int|null */
     private $statusCode;
 
     /** @var HeaderBag */
@@ -29,7 +29,7 @@ class View
      * @param int $statusCode
      * @param mixed[] $headers
      */
-    public function __construct($data = null, int $statusCode = 200, array $headers = [])
+    public function __construct($data = null, ?int $statusCode = null, array $headers = [])
     {
         $this->data = $data;
         $this->statusCode = $statusCode;
@@ -55,12 +55,12 @@ class View
         return $this;
     }
 
-    public function statusCode(): int
+    public function statusCode(): ?int
     {
         return $this->statusCode;
     }
 
-    public function setStatusCode(int $statusCode): self
+    public function setStatusCode(?int $statusCode): self
     {
         $this->statusCode = $statusCode;
 

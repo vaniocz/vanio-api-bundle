@@ -5,16 +5,17 @@
         <parameter key="security.authentication.failure_handler.class">Vanio\ApiBundle\Security\AuthenticationFailureHandler</parameter>
         <parameter key="security.logout.success_handler.class">Vanio\ApiBundle\Security\LogoutSuccessHandler</parameter>
         <parameter key="vanio_api.security.access_denied_listener.class">Vanio\ApiBundle\Security\AccessDeniedListener</parameter>
+        <parameter key="vanio_api.form.entity_type_extension.class">Vanio\ApiBundle\Form\EntityTypeExtension</parameter>
         <parameter key="vanio_api.request.format_listener.class">Vanio\ApiBundle\Request\FormatListener</parameter>
         <parameter key="vanio_api.request.request_body_listener.class">Vanio\ApiBundle\Request\RequestBodyListener</parameter>
         <parameter key="vanio_api.request.limit_param_converter.class">Vanio\ApiBundle\Request\LimitParamConverter</parameter>
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
+        <parameter key="vanio_api.serializer.form_error_handler.class">Vanio\ApiBundle\Serializer\FormErrorHandler</parameter>
         <parameter key="vanio_api.serializer.scalar_object_handler.class">Vanio\ApiBundle\Serializer\ScalarObjectHandler</parameter>
         <parameter key="vanio_api.serializer.uuid_handler.class">Vanio\ApiBundle\Serializer\UuidHandler</parameter>
         <parameter key="vanio_api.serializer.file_handler.class">Vanio\ApiBundle\Serializer\FileHandler</parameter>
-        <parameter key="vanio_api.serializer.image_handler.class">Vanio\ApiBundle\Serializer\ImageHandler</parameter>
         <parameter key="vanio_api.templating.api_extension.class">Vanio\ApiBundle\Templating\ApiExtension</parameter>
         <parameter key="vanio_api.view.view_listener.class">Vanio\ApiBundle\View\ViewListener</parameter>
     </parameters>
@@ -52,6 +53,10 @@
             <argument type="service" id="security.authentication.trust_resolver"/>
         </service>
 
+        <service id="vanio_api.form.entity_type_extension" class="%vanio_api.form.entity_type_extension.class%">
+            <tag name="form.type_extension" extended-type="Symfony\Bridge\Doctrine\Form\Type\EntityType"/>
+        </service>
+
         <service id="vanio_api.request.format_listener" class="%vanio_api.request.format_listener.class%" abstract="true">
             <argument>%vanio_api.formats%</argument>
         </service>
@@ -79,6 +84,10 @@
             <argument type="service" id="doctrine"/>
         </service>
 
+        <service id="vanio_api.serializer.form_error_handler" class="%vanio_api.serializer.form_error_handler.class%">
+            <tag name="jms_serializer.subscribing_handler"/>
+        </service>
+
         <service id="vanio_api.serializer.scalar_object_handler" class="%vanio_api.serializer.scalar_object_handler.class%">
             <tag name="jms_serializer.subscribing_handler"/>
             <tag name="jms_serializer.event_subscriber"/>
@@ -89,10 +98,6 @@
         </service>
 
         <service id="vanio_api.serializer.file_handler" class="%vanio_api.serializer.file_handler.class%">
-            <tag name="jms_serializer.subscribing_handler"/>
-        </service>
-
-        <service id="vanio_api.serializer.image_handler" class="%vanio_api.serializer.image_handler.class%">
             <tag name="jms_serializer.subscribing_handler"/>
         </service>
 
