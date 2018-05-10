@@ -12,11 +12,8 @@ class VanioApiBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new PrioritizeAddRequestFormatsListenerPass);
-        $this->getSecurityExtension($container)->addSecurityListenerFactory(new ApiFormFactory);
-    }
-
-    private function getSecurityExtension(ContainerBuilder $container): SecurityExtension
-    {
-        return $container->getExtension('security');
+        /** @var SecurityExtension $securityExtension */
+        $securityExtension = $container->getExtension('security');
+        $securityExtension->addSecurityListenerFactory(new ApiFormFactory);
     }
 }

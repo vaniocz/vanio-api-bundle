@@ -3,10 +3,11 @@ namespace Vanio\ApiBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class VanioApiExtension extends Extension
+class VanioApiExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @param mixed[] $configs
@@ -26,12 +27,16 @@ class VanioApiExtension extends Extension
 
         foreach ($subscribers as $name => $id) {
             if ($config[$name]) {
-                $container
-                    ->getDefinition($id)
-                    ->setAbstract(false)
-                    ->addTag('kernel.event_subscriber');
+                $container->getDefinition($id)->setAbstract(false)->addTag('kernel.event_subscriber');
             }
         }
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $container->prependExtensionConfig('twig', [
+            'paths' => [sprintf('%s/../Resources/views', __DIR__) => 'NelmioApiDoc'],
+        ]);
     }
 
     /**

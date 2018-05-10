@@ -4,6 +4,7 @@
         <parameter key="security.authentication.success_handler.class">Vanio\ApiBundle\Security\AuthenticationSuccessHandler</parameter>
         <parameter key="security.authentication.failure_handler.class">Vanio\ApiBundle\Security\AuthenticationFailureHandler</parameter>
         <parameter key="security.logout.success_handler.class">Vanio\ApiBundle\Security\LogoutSuccessHandler</parameter>
+        <parameter key="jms_serializer.metadata.doctrine_type_driver.class">Vanio\ApiBundle\Serializer\DoctrineTypeDriver</parameter>
         <parameter key="vanio_api.security.access_denied_listener.class">Vanio\ApiBundle\Security\AccessDeniedListener</parameter>
         <parameter key="vanio_api.form.entity_type_extension.class">Vanio\ApiBundle\Form\EntityTypeExtension</parameter>
         <parameter key="vanio_api.request.format_listener.class">Vanio\ApiBundle\Request\FormatListener</parameter>
@@ -18,6 +19,7 @@
         <parameter key="vanio_api.serializer.file_handler.class">Vanio\ApiBundle\Serializer\FileHandler</parameter>
         <parameter key="vanio_api.templating.api_extension.class">Vanio\ApiBundle\Templating\ApiExtension</parameter>
         <parameter key="vanio_api.view.view_listener.class">Vanio\ApiBundle\View\ViewListener</parameter>
+        <parameter key="vanio_api.api_doc.filter_describer.class">Vanio\ApiBundle\ApiDoc\FilterDescriber</parameter>
     </parameters>
 
     <services>
@@ -46,6 +48,12 @@
             <argument>/</argument>
             <argument type="service" id="jms_serializer.serializer"/>
             <argument>%vanio_api.formats%</argument>
+        </service>
+
+        <service id="jms_serializer.metadata.doctrine_type_driver" class="%jms_serializer.metadata.doctrine_type_driver.class%" public="false">
+            <argument type="service" id="jms_serializer.metadata.chain_driver"/>
+            <argument type="service" id="doctrine"/>
+            <call method="setTypeMapping"><argument>%vanio_api.serializer_type_mapping%</argument></call>
         </service>
 
         <service id="vanio_api.security.access_denied_listener" class="%vanio_api.security.access_denied_listener.class%" abstract="true">
@@ -111,6 +119,10 @@
             <argument type="service" id="jms_serializer.serialization_context_factory"/>
             <argument type="service" id="vanio_api.serializer.properties_exclusion_strategy"/>
             <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="vanio_api.api_doc.filter_describer" class="%vanio_api.api_doc.filter_describer.class%">
+            <tag name="nelmio_api_doc.route_describer"/>
         </service>
     </services>
 </container>

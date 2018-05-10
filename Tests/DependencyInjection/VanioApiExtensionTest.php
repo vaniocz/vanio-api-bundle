@@ -15,6 +15,7 @@ class VanioApiExtensionTest extends KernelTestCase
             'access_denied_listener' => false,
             'formats' => ['json'],
             'limit_default_options' => [],
+            'serializer_type_mapping' => [],
         ], $config);
     }
 }
