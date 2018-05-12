@@ -3,13 +3,16 @@
 {% set style %}
     {% block style %}
         <style>
-            body {
-                margin: 60px 0;
+            #swagger-ui .topbar {
+                display: none;
             }
 
-            header::before {
+            body {
+                margin: 0;
+            }
+
+            header {
                 background: #24272A;
-                box-shadow: none;
                 height: 60px;
             }
 
@@ -17,75 +20,50 @@
                 background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAA8CAMAAAD48GC1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2MDkyNCwgMjAxNy8wNy8xMy0wMTowNjozOSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxRTBGNzdBNjUzQkMxMUU4QTBFRTgwQzgwRjNDNEEzNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxRTBGNzdBNzUzQkMxMUU4QTBFRTgwQzgwRjNDNEEzNyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjFFMEY3N0E0NTNCQzExRThBMEVFODBDODBGM0M0QTM3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjFFMEY3N0E1NTNCQzExRThBMEVFODBDODBGM0M0QTM3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+MBezrgAAAwBQTFRFGh0gBgkMvr/A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');
                 background-size: cover;
                 display: block;
-                top: 28px;
+                float: right;
+                position: relative; top: 13px;
                 width: 90px; height: 30px;
             }
 
-            #logo img {
-                display: none;
-            }
-
-            #swagger-ui.api-platform .information-container.wrapper {
-                padding: 10px 0;
-            }
-
-            .swagger-ui .info hgroup.main {
-                margin: 0;
-            }
-
-            #swagger-ui.api-platform .info .title {
-                color: #3B4151;
-            }
-
-            .swagger-ui .info .description:empty {
-                display: none;
-            }
-
-            #swagger-ui.api-platform .opblock-tag:hover {
-                background-color: transparent;
-                transform: none;
-            }
-
-            .swagger-ui .expand-operation {
-                margin-top: 7px;
+            .swagger-ui .info {
+                margin: 25px 0;
             }
 
             .prop-type + span[style="color: rgb(153, 153, 153); font-style: italic;"] {
                 display: none;
             }
 
-            .swagger-ui--footer .wrapper {
-                padding: 0 60px;
+            .swagger-ui--footer section.models h4 {
+                cursor: default;
+                display: block;
             }
 
             .swagger-ui--footer section.models h4:hover {
                 background-color: transparent;
-                cursor: default;
             }
 
-            .parameters {
-                background-color: transparent !important;
-                margin: 15px 20px 10px !important;
+            .swagger-ui--footer section.models h4 span {
+                cursor: text;
             }
 
-            .parameters:last-child {
-                margin-bottom: 0 !important;
+            .swagger-ui--footer section.models .model-container, .swagger-ui--footer section.models .model-container:hover {
+                background-color: transparent;
             }
 
-            .parameters .parameters-content {
-                font-family: Open Sans, sans-serif;
+            .swagger-ui--footer .model {
+                font-family: inherit;
                 font-weight: normal;
             }
 
-            .parameters ol {
+            .swagger-ui--footer ol {
                 padding-left: 20px;
             }
 
-            .parameters ol li {
+            .swagger-ui--footer li {
                 margin-bottom: 10px;
             }
 
-            .parameters samp, .parameters em {
+            .swagger-ui--footer samp, .swagger-ui--footer em {
                 background-color: rgba(0, 0, 0, 0.05);
                 font-family: Source Code Pro, monospace;
                 font-style: normal;
@@ -95,105 +73,114 @@
     {% endblock %}
 {% endset %}
 
+{% set header %}
+    {% block header %}
+        <header class="swagger-ui header">
+            <div class="wrapper">
+                <a id="logo" href="http://www.vanio.cz/" target="_blank"></a>
+            </div>
+        </header>
+    {% endblock %}
+{% endset %}
+
 {% set footer %}
-    <div class="swagger-ui swagger-ui--footer">
-        {% block footer %}
+    {% block footer %}
+        <div class="swagger-ui swagger-ui--footer">
             <div class="wrapper">
                 <section class="block col-12 block-desktop col-12-desktop">
                     <section class="models is-open">
                         <h4><span>Query parameters</span></h4>
 
-                        <div class="model-container parameters">
+                        <div class="model-container">
                             <div class="model">
                                 <h3 class="model-title">limit and offset</h3>
 
-                                <div class="parameters-content">
-                                    <p>
-                                        Use <em>limit</em> query parameter to limit maximum number of records. This query parameter has default value of <em>100</em>.<br>
-                                        It is possible to use <em>offset</em> query parameter to skip first given number of records.
-                                    </p>
+                                <p>
+                                    Use <em>limit</em> query parameter to limit maximum number of records. This query parameter has default value of <em>100</em>.<br>
+                                    It is possible to use <em>offset</em> query parameter to skip first given number of records.
+                                </p>
 
-                                    <p>All list resources which support these two parameters always return total count of all records in the resource using <em>Total-Count</em> response header.</p>
-                                </div>
+                                <p>All list resources which support these two parameters always return total count of all records in the resource using <em>Total-Count</em> response header.</p>
                             </div>
 
                             <div class="model">
                                 <h3 class="model-title">order</h3>
 
-                                <div class="parameters-content">
-                                    <p>A list of properties (property paths) used to order records separated by <em>,</em>.</p>
-                                    <p>Properties prepended with <em>-</em> are used to sort records in descending order.</p>
-                                    <p>It is also possible to order by properties of related resources of embedded objects by separating the property names by <em>.</em></p>
+                                <p>A list of properties (property paths) used to order records separated by <em>,</em>.</p>
+                                <p>Properties prepended with <em>-</em> are used to sort records in descending order.</p>
+                                <p>It is also possible to order by properties of related resources of embedded objects by separating the property names by <em>.</em></p>
 
-                                    <p><strong>Examples:</strong></p>
+                                <p><strong>Examples:</strong></p>
 
-                                    <ol>
-                                        <li>
-                                            Ordering by <em>id</em><br>
-                                            <samp>?order=id</samp>
-                                        </li>
-                                        <li>
-                                            Ordering by <em>id</em> in descending order<br>
-                                            <samp>?order=-id</samp>
-                                        </li>
-                                        <li>
-                                            Ordering by <em>name</em> in ascending order and <em>id</em> in descending order<br>
-                                            <samp>?order=name,-id</samp>
-                                        </li>
-                                        <li>
-                                            Order by emails of related persons
-                                            <samp>?order=persons.email</samp>
-                                        </li>
-                                    </ol>
-                                </div>
+                                <ol>
+                                    <li>
+                                        Ordering by <em>id</em><br>
+                                        <samp>?order=id</samp>
+                                    </li>
+                                    <li>
+                                        Ordering by <em>id</em> in descending order<br>
+                                        <samp>?order=-id</samp>
+                                    </li>
+                                    <li>
+                                        Ordering by <em>name</em> in ascending order and <em>id</em> in descending order<br>
+                                        <samp>?order=name,-id</samp>
+                                    </li>
+                                    <li>
+                                        Order by emails of related users
+                                        <samp>?order=users.email</samp>
+                                    </li>
+                                </ol>
                             </div>
 
                             <div class="model">
                                 <h3 class="model-title">properties</h3>
 
-                                <div class="parameters-content">
-                                    <p>
-                                        A list of properties (property paths) to include in the response or exclude from the response.<br>
-                                        All resources have all properties included by default except related resources (related resources are the embedded objects with id property).<br>
-                                        Properties are <em>,</em> separated strings, you can either specify all the properties you want to include or the ones you want to exclude by prefixing them with <em>-</em>.<br>
-                                        The same applies when including related resource, you can either include whole related resource or just the properties from the related resource you need by separating the name of the related resource and name of the related resource property by <em>.</em>.<br>
-                                        Is is possible to group properties of related resources using curly brackets to reduce repetition.<br>
-                                    </p>
+                                <p>
+                                    A list of properties (property paths) to include in the response or exclude from the response.<br>
+                                    All resources have all properties included by default except related resources (related resources are the embedded objects with id property).<br>
+                                    Properties are <em>,</em> separated strings, you can either specify all the properties you want to include or the ones you want to exclude by prefixing them with <em>-</em>.<br>
+                                    The same applies when including related resource, you can either include whole related resource or just the properties from the related resource you need by separating the name of the related resource and name of the related resource property by <em>.</em>.<br>
+                                    Is is possible to group properties of related resources using curly brackets to reduce repetition.
+                                </p>
 
-                                    <p><strong>Examples:</strong></p>
+                                <p><strong>Examples:</strong></p>
 
-                                    <ol>
-                                        <li>
-                                            Selecting all account properties including all related persons properties<br>
-                                            <samp>?properties=persons</samp>
-                                        </li>
-                                        <li>
-                                            Selecting only id property of accounts including all properties of related persons<br>
-                                            <samp>?properties=id,persons</samp>
-                                        </li>
-                                        <li>
-                                            Selecting only id and name property of accounts including id property of related persons<br>
-                                            <samp>?properties=id,name,persons.id</samp>
-                                        </li>
-                                        <li>
-                                            Selecting all account properties except name including all properties of related persons except name<br>
-                                            <samp>?properties=-name,persons.-name</samp>
-                                        </li>
-                                        <li>
-                                            Selecting only id property of accounts including id and name properties of related persons<br>
-                                            <samp>?properties=id,persons.id,persons.name</samp><br>
-                                            which can be shortened to just<br>
-                                            <samp>?properties=id,persons{id,name}</samp>
-                                        </li>
-                                    </ol>
-                                </div>
+                                <ol>
+                                    <li>
+                                        Selecting all resource properties including all related users properties<br>
+                                        <samp>?properties=users</samp>
+                                    </li>
+                                    <li>
+                                        Selecting only id property of resource including all properties of related users<br>
+                                        <samp>?properties=id,users</samp>
+                                    </li>
+                                    <li>
+                                        Selecting only id and name property of resource including id property of related users<br>
+                                        <samp>?properties=id,name,users.id</samp>
+                                    </li>
+                                    <li>
+                                        Selecting all resource properties except name including all properties of related users except name<br>
+                                        <samp>?properties=-name,users.-name</samp>
+                                    </li>
+                                    <li>
+                                        Selecting only id property of resource including id and name properties of related users<br>
+                                        <samp>?properties=id,users.id,users.name</samp><br>
+                                        which can be shortened to just<br>
+                                        <samp>?properties=id,users{id,name}</samp>
+                                    </li>
+                                </ol>
                             </div>
                         </div>
                     </section>
                 </section>
             </div>
-        {% endblock %}
-    </div>
+        </div>
+    {% endblock %}
 {% endset %}
 
-{{ html|replace({'</head>': "#{style}</head>", 'https://github.com/nelmio/NelmioApiDocBundle': 'http://www.vanio.cz/'})|regexp_replace('~<div class="swagger-ui-wrap".*</div>~s', footer|raw)|raw }}
+{{ html|replace({
+    '<link rel="stylesheet" href="/bundles/nelmioapidoc/style.css">': style,
+})|regexp_replace({
+    '~<header>.*</header>~s': header,
+    '~<div class="swagger-ui-wrap".*</div>~s': footer,
+})|raw }}

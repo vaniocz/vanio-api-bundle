@@ -19,7 +19,8 @@
         "vanio/coding-standards": "^0.3"
     },
     "suggest": {
-        "hwi/oauth-bundle": "For social authentication."
+        "vanio/vanio-web-bundle": "For API documentation",
+        "nelmio/api-doc-bundle": "For API documentation"
     },
     "autoload": {
         "psr-4": {"Vanio\\ApiBundle\\": ""},
