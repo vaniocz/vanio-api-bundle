@@ -5,17 +5,12 @@ use Doctrine\Common\Persistence\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use JMS\Serializer\Metadata\Driver\DoctrineTypeDriver as BaseDoctrineTypeDriver;
 use JMS\Serializer\Metadata\PropertyMetadata;
-use Vanio\DomainBundle\Model\File;
-use Vanio\DomainBundle\Model\Image;
-use Vanio\Stdlib\Strings;
+use Ramsey\Uuid\Uuid;
 
 class DoctrineTypeDriver extends BaseDoctrineTypeDriver
 {
-    private const DEFAULT_TYPE_MAPPING = [
-        'uuid' => 'string',
-        File::class => 'string',
-        Image::class => 'string',
-    ];
+    /** @var string[] */
+    private const DEFAULT_TYPE_MAPPING = ['uuid' => Uuid::class];
 
     /** @var string[] */
     private $typeMapping = self::DEFAULT_TYPE_MAPPING;
@@ -48,10 +43,15 @@ class DoctrineTypeDriver extends BaseDoctrineTypeDriver
     {
         if ($normalizedType = $this->fieldMapping[$type] ?? $this->typeMapping[$type] ?? null) {
             return $normalizedType;
-        } elseif (Strings::startsWith($type, 'scalar_object<')) {
-            $type = substr($type, 14, -1);
+        }
 
-            return $this->fieldMapping[$type::scalarType()];
+        list($type, $typeParametersLiteral) = explode('<', $type, 2) + [1 => null];
+        $typeParameters = $typeParametersLiteral
+            ? preg_split('~,\h*~', trim(substr($typeParametersLiteral, 0, -1)))
+            : [];
+
+        if ($type = array_shift($typeParameters)) {
+            return $typeParameters ? sprintf('%s<%s>', implode(', ', $typeParameters)) : $type;
         }
 
         return null;

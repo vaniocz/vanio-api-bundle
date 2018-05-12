@@ -14,12 +14,14 @@
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
         <parameter key="vanio_api.serializer.form_error_handler.class">Vanio\ApiBundle\Serializer\FormErrorHandler</parameter>
+        <parameter key="vanio_api.serializer.paginator_handler.class">Vanio\ApiBundle\Serializer\PaginatorHandler</parameter>
         <parameter key="vanio_api.serializer.scalar_object_handler.class">Vanio\ApiBundle\Serializer\ScalarObjectHandler</parameter>
         <parameter key="vanio_api.serializer.uuid_handler.class">Vanio\ApiBundle\Serializer\UuidHandler</parameter>
         <parameter key="vanio_api.serializer.file_handler.class">Vanio\ApiBundle\Serializer\FileHandler</parameter>
         <parameter key="vanio_api.templating.api_extension.class">Vanio\ApiBundle\Templating\ApiExtension</parameter>
         <parameter key="vanio_api.view.view_listener.class">Vanio\ApiBundle\View\ViewListener</parameter>
         <parameter key="vanio_api.api_doc.filter_describer.class">Vanio\ApiBundle\ApiDoc\FilterDescriber</parameter>
+        <parameter key="vanio_api.api_doc.model_describer.class">Vanio\ApiBundle\ApiDoc\ModelDescriber</parameter>
     </parameters>
 
     <services>
@@ -53,7 +55,7 @@
         <service id="jms_serializer.metadata.doctrine_type_driver" class="%jms_serializer.metadata.doctrine_type_driver.class%" public="false">
             <argument type="service" id="jms_serializer.metadata.chain_driver"/>
             <argument type="service" id="doctrine"/>
-            <call method="setTypeMapping"><argument>%vanio_api.serializer_type_mapping%</argument></call>
+            <call method="setTypeMapping"><argument>%vanio_api.serializer_doctrine_type_mapping%</argument></call>
         </service>
 
         <service id="vanio_api.security.access_denied_listener" class="%vanio_api.security.access_denied_listener.class%" abstract="true">
@@ -96,6 +98,10 @@
             <tag name="jms_serializer.subscribing_handler"/>
         </service>
 
+        <service id="vanio_api.serializer.paginator_handler" class="%vanio_api.serializer.paginator_handler.class%">
+            <tag name="jms_serializer.subscribing_handler"/>
+        </service>
+
         <service id="vanio_api.serializer.scalar_object_handler" class="%vanio_api.serializer.scalar_object_handler.class%">
             <tag name="jms_serializer.subscribing_handler"/>
             <tag name="jms_serializer.event_subscriber"/>
@@ -123,6 +129,13 @@
 
         <service id="vanio_api.api_doc.filter_describer" class="%vanio_api.api_doc.filter_describer.class%">
             <tag name="nelmio_api_doc.route_describer"/>
+        </service>
+
+        <service id="vanio_api.api_doc.model_describer" class="%vanio_api.api_doc.model_describer.class%" abstract="true">
+            <argument type="service" id="vanio_api.api_doc.model_describer.inner"/>
+            <argument type="service" id="jms_serializer.metadata_factory"/>
+            <argument type="service" id="jms_serializer.naming_strategy"/>
+            <call method="setTypeMapping"><argument>%vanio_api.nelmio_api_doc_type_mapping%</argument></call>
         </service>
     </services>
 </container>

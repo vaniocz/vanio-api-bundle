@@ -61,8 +61,8 @@ class ScalarObjectHandler implements SubscribingHandlerInterface, EventSubscribe
 
             foreach ($methods as $direction => $method) {
                 $subscribingMethods[] = [
-                    'type' => ScalarObject::class,
                     'direction' => $direction,
+                    'type' => ScalarObject::class,
                     'format' => $format,
                     'method' => $method,
                 ];

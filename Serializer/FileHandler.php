@@ -24,8 +24,8 @@ class FileHandler implements SubscribingHandlerInterface
         foreach (['json', 'xml', 'yml'] as $format) {
             foreach ([File::class, Image::class] as $type) {
                 $subscribingMethods[] = [
-                    'type' => $type,
                     'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
+                    'type' => $type,
                     'format' => $format,
                     'method' => 'serialize',
                 ];

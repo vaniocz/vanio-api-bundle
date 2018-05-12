@@ -50,11 +50,118 @@
                 margin-top: 7px;
             }
 
-            #swagger-ui + .swagger-ui-wrap {
+            .prop-type + span[style="color: rgb(153, 153, 153); font-style: italic;"] {
                 display: none;
+            }
+
+            .swagger-ui--footer .wrapper {
+                padding: 0 60px;
+            }
+
+            .swagger-ui--footer section.models h4:hover {
+                background-color: transparent;
+                cursor: default;
+            }
+
+            .parameters {
+                background-color: transparent !important;
+                margin: 15px 20px 10px !important;
+            }
+
+            .parameters:last-child {
+                margin-bottom: 0 !important;
+            }
+
+            .parameters .parameters-content {
+                font-family: Open Sans, sans-serif;
+                font-weight: normal;
+            }
+
+            .parameters ol {
+                padding-left: 20px;
+            }
+
+            .parameters ol li {
+                margin-bottom: 10px;
+            }
+
+            .parameters samp, .parameters em {
+                background-color: rgba(0, 0, 0, 0.05);
+                font-family: Source Code Pro, monospace;
+                font-style: normal;
+                padding: 2px;
             }
         </style>
     {% endblock %}
 {% endset %}
 
-{{ html|replace({'</head>': "#{style}</head>", 'https://github.com/nelmio/NelmioApiDocBundle': 'http://www.vanio.cz/'})|raw }}
+{% set footer %}
+    <div class="swagger-ui swagger-ui--footer">
+        {% block footer %}
+            <div class="wrapper">
+                <section class="block col-12 block-desktop col-12-desktop">
+                    <section class="models is-open">
+                        <h4><span>Query parameters</span></h4>
+
+                        <div class="model-container parameters">
+                            <div class="model">
+                                <h3 class="model-title">limit and offset</h3>
+
+                                <div class="parameters-content">
+                                    <p>
+                                        Use <em>limit</em> query parameter to limit the maximum number of record in the response. This query parameter has default value of <em>100</em>.<br>
+                                        It is possible to use <em>offset</em> query parameter to skip first given number of record.
+                                    </p>
+                                    <p>All list resources which support these two parameters returns always total count of all records inside the resource using <em>Total-Count</em> response header.</p>
+                                </div>
+                            </div>
+
+                            <div class="model">
+                                <h3 class="model-title">properties</h3>
+
+                                <div class="parameters-content">
+                                    <p>
+                                        A list of properties to include in the response or exclude from the response.<br>
+                                        All resources have all properties included by default except related resources (related resources are the embedded objects with id property).<br>
+                                        Properties are <em>,</em> separated strings, you can either specify all the properties you want to include or the ones you want to exclude by prefixing them with <em>-</em>.<br>
+                                        The same applies when including related resource, you can either include whole related resource or just the properties from the related resource you need by separating the name of the related resource and name of the related resource property by <em>.</em>.<br>
+                                        Is is possible to group properties of related resources using curly brackets to reduce repetition.<br>
+                                    </p>
+
+                                    <p><strong>Examples:</strong></p>
+
+                                    <ol>
+                                        <li>
+                                            Selecting all account properties including all related persons properties<br>
+                                            <samp>?properties=persons</samp>
+                                        </li>
+                                        <li>
+                                            Selecting only id property of accounts including all properties of related persons<br>
+                                            <samp>?properties=id,persons</samp>
+                                        </li>
+                                        <li>
+                                            Selecting only id and name property of accounts including id property of related persons<br>
+                                            <samp>?properties=id,name,persons.id</samp>
+                                        </li>
+                                        <li>
+                                            Selecting all account properties except name including all properties of related persons except name<br>
+                                            <samp>?properties=-name,persons.-name</samp>
+                                        </li>
+                                        <li>
+                                            Selecting only id property of accounts including id and name properties of related persons<br>
+                                            <samp>?properties=id,persons.id,persons.name</samp><br>
+                                            which can be shortened to just<br>
+                                            <samp>?properties=id,persons{id,name}</samp>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        {% endblock %}
+    </div>
+{% endset %}
+
+{{ html|replace({'</head>': "#{style}</head>", 'https://github.com/nelmio/NelmioApiDocBundle': 'http://www.vanio.cz/'})|regexp_replace('~<div class="swagger-ui-wrap".*</div>~s', footer|raw)|raw }}

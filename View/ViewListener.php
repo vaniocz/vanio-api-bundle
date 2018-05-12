@@ -1,6 +1,7 @@
 <?php
 namespace Vanio\ApiBundle\View;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use JMS\Serializer\Context;
 use JMS\Serializer\ContextFactory\SerializationContextFactoryInterface;
 use JMS\Serializer\SerializerInterface;
@@ -44,15 +45,16 @@ class ViewListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $format = $view->format() ?? $request->getRequestFormat();
-        $content = $this->serializer->serialize(
-            $view->data(),
-            $format,
-            $this->resolveSerializationContext($view, $request)
-        );
+        $data = $view->data();
+        $content = $this->serializer->serialize($data, $format, $this->resolveSerializationContext($view, $request));
         $headers = $view->headers()->all();
 
         if (!$view->headers()->has('Content-Type')) {
             $headers['Content-Type'] = $request->getMimeType($format);
+        }
+
+        if ($data instanceof Paginator) {
+            $headers['Total-Count'] = $data->count();
         }
 
         $statusCode = $view->statusCode() ?? is_array($view->data()) && !empty($view->data()['errors']) ? 422 : 200;

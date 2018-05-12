@@ -34,8 +34,8 @@ class UuidHandler implements SubscribingHandlerInterface
 
             foreach ($methods as $direction => $method) {
                 $subscribingMethods[] = [
-                    'type' => Uuid::class,
                     'direction' => $direction,
+                    'type' => Uuid::class,
                     'format' => $format,
                     'method' => $method,
                 ];

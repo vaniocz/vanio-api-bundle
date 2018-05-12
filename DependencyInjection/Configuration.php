@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('request_body_listener')->defaultFalse()->end()
                 ->booleanNode('access_denied_listener')->defaultFalse()->end()
                 ->arrayNode('formats')
-                    ->prototype('scalar')->end()
+                    ->scalarPrototype()->end()
                     ->defaultValue(['json'])
                     ->beforeNormalization()
                         ->ifTrue(function ($value) {
@@ -32,8 +32,12 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->addDefaultsIfNotSet()
                 ->end()
-                ->arrayNode('serializer_type_mapping')
-                    ->prototype('scalar')->end()
+                ->arrayNode('serializer_doctrine_type_mapping')
+                    ->scalarPrototype()->end()
+                    ->defaultValue([])
+                ->end()
+                ->arrayNode('nelmio_api_doc_type_mapping')
+                    ->variablePrototype()->end()
                     ->defaultValue([])
                 ->end()
             ->end();
