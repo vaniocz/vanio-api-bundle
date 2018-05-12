@@ -1,7 +1,8 @@
+{% set swagger_data = {spec: swagger_data.spec + {host: app.request.host}} %}
 {% set html %}{% include '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}{% endset %}
 
-{% set style %}
-    {% block style %}
+{% set styles %}
+    {% block styles %}
         <style>
             #swagger-ui .topbar {
                 display: none;
@@ -21,16 +22,28 @@
                 background-size: cover;
                 display: block;
                 float: right;
-                position: relative; top: 13px;
+                position: relative; top: 13px; right: 20px;
                 width: 90px; height: 30px;
             }
 
+            #swagger-ui {
+                padding: 0 20px;
+            }
+
+            .swagger-ui .wrapper {
+                padding: 0;
+            }
+
             .swagger-ui .info {
-                margin: 25px 0;
+                margin: 45px 0 25px 0;
             }
 
             .prop-type + span[style="color: rgb(153, 153, 153); font-style: italic;"] {
                 display: none;
+            }
+
+            .swagger-ui--footer {
+                padding: 0 20px;
             }
 
             .swagger-ui--footer section.models h4 {
@@ -178,9 +191,36 @@
     {% endblock %}
 {% endset %}
 
+{% set scripts %}
+    {% block scripts %}
+        <script>
+            (function (global) {
+                global.ui = SwaggerUIBundle({
+                    spec: {{ swagger_data.spec|json_encode(65)|raw }},
+                    dom_id: '#swagger-ui',
+                    validatorUrl: null,
+                    presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+                    plugins: [SwaggerUIBundle.plugins.DownloadUrl],
+                    layout: 'StandaloneLayout',
+
+                    {% if api_doc_request_with_credentials %}
+                        requestInterceptor: function (request) {
+                            request.credentials = 'include';
+
+                            return request;
+                        },
+                    {% endif %}
+                });
+            })(window);
+        </script>
+    {% endblock %}
+{% endset %}
+
 {{ html|replace({
-    '<link rel="stylesheet" href="/bundles/nelmioapidoc/style.css">': style,
+    '<link rel="stylesheet" href="/bundles/nelmioapidoc/style.css">': styles,
+    '<script src="/bundles/nelmioapidoc/init-swagger-ui.js"></script>': scripts,
 })|regexp_replace({
-    '~<header>.*</header>~s': header,
-    '~<div class="swagger-ui-wrap".*</div>~s': footer,
+    '~<script id="swagger-data".*?</script>~s': '',
+    '~<header>.*?</header>~s': header,
+    '~<div class="swagger-ui-wrap".*?</div>~s': footer,
 })|raw }}

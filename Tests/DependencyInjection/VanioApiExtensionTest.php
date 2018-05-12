@@ -16,7 +16,8 @@ class VanioApiExtensionTest extends KernelTestCase
             'formats' => ['json'],
             'limit_default_options' => [],
             'serializer_doctrine_type_mapping' => [],
-            'nelmio_api_doc_type_mapping' => [],
+            'api_doc_type_mapping' => [],
+            'api_doc_request_with_credentials' => false,
         ], $config);
     }
 }

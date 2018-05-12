@@ -3,16 +3,21 @@ namespace Vanio\ApiBundle\Templating;
 
 use JMS\Serializer\SerializerInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 use Twig\TwigFilter;
 
-class ApiExtension extends AbstractExtension
+class ApiExtension extends AbstractExtension implements GlobalsInterface
 {
     /** @var SerializerInterface */
     private $serializer;
 
-    public function __construct(SerializerInterface $serializer)
+    /** @var bool */
+    private $shouldApiDocRequestWithCredentials;
+
+    public function __construct(SerializerInterface $serializer, bool $shouldApiDocRequestWithCredentials = false)
     {
         $this->serializer = $serializer;
+        $this->shouldApiDocRequestWithCredentials = $shouldApiDocRequestWithCredentials;
     }
 
     /**
@@ -21,6 +26,14 @@ class ApiExtension extends AbstractExtension
     public function getFilters(): array
     {
         return [new TwigFilter('serialize', [$this, 'serialize'])];
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getGlobals(): array
+    {
+        return ['api_doc_request_with_credentials' => $this->shouldApiDocRequestWithCredentials];
     }
 
     /**

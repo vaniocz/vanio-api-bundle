@@ -36,10 +36,11 @@ class Configuration implements ConfigurationInterface
                     ->scalarPrototype()->end()
                     ->defaultValue([])
                 ->end()
-                ->arrayNode('nelmio_api_doc_type_mapping')
+                ->arrayNode('api_doc_type_mapping')
                     ->variablePrototype()->end()
                     ->defaultValue([])
                 ->end()
+                ->booleanNode('api_doc_request_with_credentials')->defaultFalse()->end()
             ->end();
 
         return $treeBuilder;

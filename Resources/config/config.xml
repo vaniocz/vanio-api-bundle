@@ -117,6 +117,7 @@
 
         <service id="vanio_api.templating.api_extension" class="%vanio_api.templating.api_extension.class%">
             <argument type="service" id="jms_serializer.serializer"/>
+            <argument>%vanio_api.api_doc_request_with_credentials%</argument>
             <tag name="twig.extension"/>
         </service>
 
@@ -135,7 +136,7 @@
             <argument type="service" id="vanio_api.api_doc.model_describer.inner"/>
             <argument type="service" id="jms_serializer.metadata_factory"/>
             <argument type="service" id="jms_serializer.naming_strategy"/>
-            <call method="setTypeMapping"><argument>%vanio_api.nelmio_api_doc_type_mapping%</argument></call>
+            <call method="setTypeMapping"><argument>%vanio_api.api_doc_type_mapping%</argument></call>
         </service>
     </services>
 </container>
