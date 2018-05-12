@@ -45,6 +45,6 @@ class Filter extends Specification
 
     public function buildSpecification(string $dqlAlias): AndX
     {
-        return new AndX($this->orderBy, $this->limit, $this->properties);
+        return new AndX($this->properties, $this->limit, $this->orderBy);
     }
 }

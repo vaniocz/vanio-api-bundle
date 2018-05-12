@@ -109,10 +109,42 @@
 
                                 <div class="parameters-content">
                                     <p>
-                                        Use <em>limit</em> query parameter to limit the maximum number of record in the response. This query parameter has default value of <em>100</em>.<br>
-                                        It is possible to use <em>offset</em> query parameter to skip first given number of record.
+                                        Use <em>limit</em> query parameter to limit maximum number of records. This query parameter has default value of <em>100</em>.<br>
+                                        It is possible to use <em>offset</em> query parameter to skip first given number of records.
                                     </p>
-                                    <p>All list resources which support these two parameters returns always total count of all records inside the resource using <em>Total-Count</em> response header.</p>
+
+                                    <p>All list resources which support these two parameters always return total count of all records in the resource using <em>Total-Count</em> response header.</p>
+                                </div>
+                            </div>
+
+                            <div class="model">
+                                <h3 class="model-title">order</h3>
+
+                                <div class="parameters-content">
+                                    <p>A list of properties (property paths) used to order records separated by <em>,</em>.</p>
+                                    <p>Properties prepended with <em>-</em> are used to sort records in descending order.</p>
+                                    <p>It is also possible to order by properties of related resources of embedded objects by separating the property names by <em>.</em></p>
+
+                                    <p><strong>Examples:</strong></p>
+
+                                    <ol>
+                                        <li>
+                                            Ordering by <em>id</em><br>
+                                            <samp>?order=id</samp>
+                                        </li>
+                                        <li>
+                                            Ordering by <em>id</em> in descending order<br>
+                                            <samp>?order=-id</samp>
+                                        </li>
+                                        <li>
+                                            Ordering by <em>name</em> in ascending order and <em>id</em> in descending order<br>
+                                            <samp>?order=name,-id</samp>
+                                        </li>
+                                        <li>
+                                            Order by emails of related persons
+                                            <samp>?order=persons.email</samp>
+                                        </li>
+                                    </ol>
                                 </div>
                             </div>
 
@@ -121,7 +153,7 @@
 
                                 <div class="parameters-content">
                                     <p>
-                                        A list of properties to include in the response or exclude from the response.<br>
+                                        A list of properties (property paths) to include in the response or exclude from the response.<br>
                                         All resources have all properties included by default except related resources (related resources are the embedded objects with id property).<br>
                                         Properties are <em>,</em> separated strings, you can either specify all the properties you want to include or the ones you want to exclude by prefixing them with <em>-</em>.<br>
                                         The same applies when including related resource, you can either include whole related resource or just the properties from the related resource you need by separating the name of the related resource and name of the related resource property by <em>.</em>.<br>
