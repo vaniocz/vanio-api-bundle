@@ -18,6 +18,15 @@ class VanioApiExtensionTest extends KernelTestCase
             'serializer_doctrine_type_mapping' => [],
             'api_doc_type_mapping' => [],
             'api_doc_request_with_credentials' => false,
+            'cors' => [
+                'enabled' => false,
+                'allow_origins' => [],
+                'allow_methods' => true,
+                'allow_headers' => true,
+                'expose_headers' => true,
+                'allow_credentials' => true,
+                'maximum_age' => null,
+            ],
         ], $config);
     }
 }

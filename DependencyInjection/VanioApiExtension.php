@@ -22,11 +22,12 @@ class VanioApiExtension extends Extension implements PrependExtensionInterface
         $subscribers = [
             'format_listener' => 'vanio_api.request.format_listener',
             'request_body_listener' => 'vanio_api.request.request_body_listener',
+            'cors' => 'vanio_api.request.cors_listener',
             'access_denied_listener' => 'vanio_api.security.access_denied_listener',
         ];
 
         foreach ($subscribers as $name => $id) {
-            if ($config[$name]) {
+            if ($config[$name] && !isset($config[$name]['enabled']) || $config[$name]['enabled']) {
                 $container->getDefinition($id)->setAbstract(false)->addTag('kernel.event_subscriber');
             }
         }

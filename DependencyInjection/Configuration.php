@@ -26,6 +26,46 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                 ->end()
+                ->arrayNode('cors')
+                    ->addDefaultsIfNotSet()
+                    ->canBeEnabled()
+                    ->children()
+                        ->arrayNode('allow_origins')
+                            ->scalarPrototype()->end()
+                            ->beforeNormalization()
+                                ->always(function ($value) {
+                                    return (array) $value;
+                                })
+                            ->end()
+                        ->end()
+                        ->variableNode('allow_methods')
+                            ->defaultTrue()
+                            ->beforeNormalization()
+                                ->always(function ($value) {
+                                    return $value === true ? true : (array) $value;
+                                })
+                            ->end()
+                        ->end()
+                        ->variableNode('allow_headers')
+                            ->defaultTrue()
+                            ->beforeNormalization()
+                                ->always(function ($value) {
+                                    return $value === true ? true : (array) $value;
+                                })
+                            ->end()
+                        ->end()
+                        ->variableNode('expose_headers')
+                            ->defaultTrue()
+                            ->beforeNormalization()
+                                ->always(function ($value) {
+                                    return $value === true ? true : (array) $value;
+                                })
+                            ->end()
+                        ->end()
+                        ->booleanNode('allow_credentials')->defaultTrue()->end()
+                        ->integerNode('maximum_age')->defaultNull()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('limit_default_options')
                     ->children()
                         ->integerNode('default_limit')->end()

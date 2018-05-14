@@ -9,6 +9,7 @@
         <parameter key="vanio_api.form.entity_type_extension.class">Vanio\ApiBundle\Form\EntityTypeExtension</parameter>
         <parameter key="vanio_api.request.format_listener.class">Vanio\ApiBundle\Request\FormatListener</parameter>
         <parameter key="vanio_api.request.request_body_listener.class">Vanio\ApiBundle\Request\RequestBodyListener</parameter>
+        <parameter key="vanio_api.request.cors_listener.class">Vanio\ApiBundle\Request\CorsListener</parameter>
         <parameter key="vanio_api.request.limit_param_converter.class">Vanio\ApiBundle\Request\LimitParamConverter</parameter>
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
@@ -74,6 +75,14 @@
         <service id="vanio_api.request.request_body_listener" class="%vanio_api.request.request_body_listener.class%" abstract="true">
             <argument type="service" id="jms_serializer.serializer"/>
             <argument>%vanio_api.formats%</argument>
+        </service>
+
+        <service id="vanio_api.request.cors_listener" class="%vanio_api.request.cors_listener.class%" abstract="true">
+            <argument>%vanio_api.cors.allow_origins%</argument>
+            <argument>%vanio_api.cors.allow_methods%</argument>
+            <argument>%vanio_api.cors.allow_headers%</argument>
+            <argument>%vanio_api.cors.expose_headers%</argument>
+            <argument>%vanio_api.cors.allow_credentials%</argument>
         </service>
 
         <service id="vanio_api.request.limit_param_converter" class="%vanio_api.request.limit_param_converter.class%">
