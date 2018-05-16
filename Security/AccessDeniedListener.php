@@ -2,6 +2,7 @@
 namespace Vanio\ApiBundle\Security;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -60,7 +61,7 @@ class AccessDeniedListener implements EventSubscriberInterface
 
     private function createUnauthorizedException(): HttpException
     {
-        return new HttpException(401, 'You are not authenticated.');
+        return new HttpException(Response::HTTP_UNAUTHORIZED, 'You are not authenticated.');
     }
 
     private function createForbiddenException(): AccessDeniedHttpException

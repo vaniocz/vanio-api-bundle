@@ -57,7 +57,7 @@ class ViewListener implements EventSubscriberInterface
             $headers['Total-Count'] = $data->count();
         }
 
-        $statusCode = $view->statusCode() ?? is_array($view->data()) && !empty($view->data()['errors']) ? 422 : 200;
+        $statusCode = $view->statusCode() ?? (is_array($view->data()) && !empty($view->data()['errors']) ? 422 : 200);
         $event->setResponse(new Response($content, $statusCode, $headers));
     }
 
