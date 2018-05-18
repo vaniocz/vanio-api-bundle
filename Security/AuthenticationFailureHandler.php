@@ -50,13 +50,13 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
                     'security'
                 );
                 $data = [
-                    'code' => 401,
+                    'code' => Response::HTTP_UNAUTHORIZED,
                     'message' => 'Unauthorized',
                     'errors' => [$error],
                 ];
                 $content = $this->serializer->serialize($data, $request->getRequestFormat());
 
-                return new Response($content, 401);
+                return new Response($content, Response::HTTP_UNAUTHORIZED);
             } catch (UnsupportedFormatException $e) {}
         }
 

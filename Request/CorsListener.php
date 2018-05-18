@@ -151,7 +151,7 @@ class CorsListener implements EventSubscriberInterface
         $method = strtoupper($request->headers->get('Access-Control-Request-Method'));
 
         if (!in_array($method, $allowedMethods, true)) {
-            return $response->setStatusCode(405);
+            return $response->setStatusCode(Response::HTTP_METHOD_NOT_ALLOWED);
         } elseif (!in_array($method, $allowedMethods, true)) {
             $allowedMethods[] = $method;
             $response->headers->set('Access-Control-Allow-Methods', implode(', ', $allowedMethods));
@@ -163,7 +163,7 @@ class CorsListener implements EventSubscriberInterface
                     continue;
                 } elseif (!in_array($header, $this->allowedHeaders, true)) {
                     $response
-                        ->setStatusCode(400)
+                        ->setStatusCode(Response::HTTP_BAD_REQUEST)
                         ->setContent(sprintf('Unauthorized header "%s".', $header));
                 }
             }

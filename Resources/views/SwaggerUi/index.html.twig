@@ -68,6 +68,10 @@
                 font-weight: normal;
             }
 
+            .swagger-ui--footer .model a {
+                color: inherit;
+            }
+
             .swagger-ui--footer ol {
                 padding-left: 20px;
             }
@@ -180,6 +184,29 @@
                                         <samp>?properties=id,users.id,users.name</samp><br>
                                         which can be shortened to just<br>
                                         <samp>?properties=id,users{id,name}</samp>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div class="model">
+                                <h3 class="model-title">query</h3>
+
+                                <p>
+                                    Doctrine <a href="https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html#ebnf" target="_blank">DQL</a> condition used to filter the result.
+                                    Root entity alias is set to <em>e</em> thus you must prefix all field and association paths with <em>e.</em>.
+                                    The DQL query condition is sandboxed. Usage of joins, subselects, exists expressions, instanceof expressions and input parameters are fobbidden.
+                                </p>
+
+                                <p><strong>Examples:</strong></p>
+
+                                <ol>
+                                    <li>
+                                        Filtering all resources created before <em>2018-01-01</em>.<br>
+                                        <samp>?query=e.createdAt &lt; '2018-01-01'</samp>
+                                    </li>
+                                    <li>
+                                        Filtering all resources which name starts with letter <em>A</em>.<br>
+                                        <samp>?query=e.name LIKE 'A%'</samp>
                                     </li>
                                 </ol>
                             </div>

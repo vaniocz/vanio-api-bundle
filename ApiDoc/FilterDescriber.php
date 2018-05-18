@@ -17,22 +17,26 @@ class FilterDescriber implements RouteDescriberInterface
     private const PARAMETERS = [
         'properties' => [
             'type' => 'string',
-            'description' => 'The properties to include/exclude',
+            'description' => 'Properties to include/exclude',
         ],
         'order' => [
             'type' => 'string',
-            'description' => 'The property used to order',
+            'description' => 'Property used to order',
             'default' => 'id',
         ],
         'limit' => [
             'type' => 'integer',
-            'description' => 'The maximal number of records',
+            'description' => 'Maximal number of records',
             'default' => 100,
         ],
         'offset' => [
             'type' => 'integer',
-            'description' => 'The number of records to skip',
+            'description' => 'Number of records to skip',
             'default' => 0,
+        ],
+        'query' => [
+            'type' => 'string',
+            'description' => 'Doctrine DQL condition',
         ],
     ];
 

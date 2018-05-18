@@ -29,7 +29,9 @@ class FilterParamConverter implements ParamConverterInterface
         $limit = $request->attributes->get($configuration->getName());
         (new PropertiesParamConverter($options))->apply($request, $configuration);
         $properties = $request->attributes->get($configuration->getName());
-        $filter = new Filter($orderBy, $limit, $properties, $options['dql_alias']);
+        (new QueryParamConverter($options))->apply($request, $configuration);
+        $query = $request->attributes->get($configuration->getName());
+        $filter = new Filter($orderBy, $limit, $properties, $query, $options['dql_alias']);
         $request->attributes->set($configuration->getName(), $filter);
 
         return true;

@@ -35,9 +35,9 @@ class DoctrineTypeDriver extends BaseDoctrineTypeDriver
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      * @param string $type
      * @return string|null
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      */
     protected function normalizeFieldType($type): ?string
     {

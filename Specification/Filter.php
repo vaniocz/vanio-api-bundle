@@ -16,15 +16,20 @@ class Filter extends Specification
     /** @var Properties */
     private $properties;
 
+    /** @var Query */
+    private $query;
+
     public function __construct(
         OrderBy $orderBy,
         Limit $limit,
         Properties $properties,
+        Query $query,
         ?string $dqlAlias = null
     ) {
         $this->orderBy = $orderBy;
         $this->limit = $limit;
         $this->properties = $properties;
+        $this->query = $query;
         $this->dqlAlias = $dqlAlias;
     }
 
@@ -43,8 +48,13 @@ class Filter extends Specification
         return $this->properties;
     }
 
+    public function query(): Query
+    {
+        return $this->query;
+    }
+
     public function buildSpecification(string $dqlAlias): AndX
     {
-        return new AndX($this->properties, $this->limit, $this->orderBy);
+        return new AndX($this->properties, $this->query, $this->limit, $this->orderBy);
     }
 }

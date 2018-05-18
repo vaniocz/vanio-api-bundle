@@ -57,9 +57,9 @@ class Properties implements QueryModifier
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      * @param QueryBuilder $queryBuilder
      * @param string $dqlAlias
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
      */
     public function modify(QueryBuilder $queryBuilder, $dqlAlias): void
     {

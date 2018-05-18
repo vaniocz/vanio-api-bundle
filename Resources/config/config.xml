@@ -12,6 +12,7 @@
         <parameter key="vanio_api.request.cors_listener.class">Vanio\ApiBundle\Request\CorsListener</parameter>
         <parameter key="vanio_api.request.limit_param_converter.class">Vanio\ApiBundle\Request\LimitParamConverter</parameter>
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
+        <parameter key="vanio_api.request.query_param_converter.class">Vanio\ApiBundle\Request\QueryParamConverter</parameter>
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
         <parameter key="vanio_api.serializer.form_error_handler.class">Vanio\ApiBundle\Serializer\FormErrorHandler</parameter>
@@ -92,6 +93,10 @@
 
         <service id="vanio_api.request.properties_param_converter" class="%vanio_api.request.properties_param_converter.class%">
             <tag name="request.param_converter" converter="properties"/>
+        </service>
+
+        <service id="vanio_api.request.query_param_converter" class="%vanio_api.request.query_param_converter.class%">
+            <tag name="request.param_converter" converter="query"/>
         </service>
 
         <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%">
