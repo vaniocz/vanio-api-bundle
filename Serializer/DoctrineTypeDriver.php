@@ -45,7 +45,7 @@ class DoctrineTypeDriver extends BaseDoctrineTypeDriver
             return $normalizedType;
         }
 
-        list($type, $typeParametersLiteral) = explode('<', $type, 2) + [1 => null];
+        [$type, $typeParametersLiteral] = explode('<', $type, 2) + [1 => null];
         $typeParameters = $typeParametersLiteral
             ? preg_split('~,\h*~', trim(substr($typeParametersLiteral, 0, -1)))
             : [];
