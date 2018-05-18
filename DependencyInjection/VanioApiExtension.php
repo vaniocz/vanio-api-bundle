@@ -36,7 +36,10 @@ class VanioApiExtension extends Extension implements PrependExtensionInterface
     public function prepend(ContainerBuilder $container): void
     {
         $container->prependExtensionConfig('twig', [
-            'paths' => [sprintf('%s/../Resources/views', __DIR__) => 'NelmioApiDoc'],
+            'paths' => [
+                sprintf('%s/../Resources/views', __DIR__) => 'Twig',
+                sprintf('%s/../Resources/views/', __DIR__) => 'NelmioApiDoc',
+            ],
         ]);
     }
 

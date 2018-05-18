@@ -1,0 +1,5 @@
+{% set data = exception.class is instance of('Symfony\\Component\\HttpKernel\\Exception\\HttpExceptionInterface')
+    ? {code: status_code, message: status_text, errors: [exception.message]}
+    : {code: status_code, message: status_text}
+%}
+{{ data|serialize('json')|raw }}
