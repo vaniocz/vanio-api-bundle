@@ -243,10 +243,9 @@
     {% endblock %}
 {% endset %}
 
-{{ html|replace({
-    '<link rel="stylesheet" href="/bundles/nelmioapidoc/style.css">': styles,
-    '<script src="/bundles/nelmioapidoc/init-swagger-ui.js"></script>': scripts,
-})|regexp_replace({
+{{ html|regexp_replace({
+    '~<link rel="stylesheet" href="[^"]*/bundles/nelmioapidoc/style.css">~': styles,
+    '~<script src="[^"]*/bundles/nelmioapidoc/init-swagger-ui.js"></script>~': scripts,
     '~<script id="swagger-data".*?</script>~s': '',
     '~<header>.*?</header>~s': header,
     '~<div class="swagger-ui-wrap".*?</div>~s': footer,
