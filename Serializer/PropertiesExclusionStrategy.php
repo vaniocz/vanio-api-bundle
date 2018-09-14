@@ -2,6 +2,7 @@
 namespace Vanio\ApiBundle\Serializer;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use JMS\Serializer\Context;
 use JMS\Serializer\Exclusion\ExclusionStrategyInterface;
@@ -19,6 +20,9 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
 
     /** @var mixed[] */
     private $exposedProperties = [];
+
+    /** @var ObjectManager|null */
+    private $objectManager;
 
     public function __construct(ManagerRegistry $doctrine)
     {
@@ -96,6 +100,12 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
 
     private function getClassMetadata(string $class): ClassMetadataInfo
     {
-        return $this->doctrine->getManagerForClass($class)->getClassMetadata($class);
+        if ($objectManager = $this->doctrine->getManagerForClass($class)) {
+            $this->objectManager = $objectManager;
+        } elseif (!$this->objectManager) {
+            $this->objectManager = $this->doctrine->getManager();
+        }
+
+        return $this->objectManager->getClassMetadata($class);
     }
 }

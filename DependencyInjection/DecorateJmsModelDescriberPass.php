@@ -4,7 +4,7 @@ namespace Vanio\ApiBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class DecorateJmsModelDescriber implements CompilerPassInterface
+class DecorateJmsModelDescriberPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {

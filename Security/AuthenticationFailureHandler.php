@@ -2,42 +2,41 @@
 namespace Vanio\ApiBundle\Security;
 
 use JMS\Serializer\SerializerInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler;
-use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 {
+    /** @var DefaultAuthenticationFailureHandler */
+    private $authenticationFailureHandler;
+
     /** @var SerializerInterface */
     private $serializer;
 
     /** @var TranslatorInterface|null */
     private $translator;
 
-    /**
-     * @param HttpKernelInterface $httpKernel
-     * @param HttpUtils $httpUtils
-     * @param mixed[] $options
-     * @param LoggerInterface|null $logger
-     * @param SerializerInterface $serializer
-     * @param TranslatorInterface $translator
-     */
     public function __construct(
-        HttpKernelInterface $httpKernel,
-        HttpUtils $httpUtils,
-        array $options,
-        ?LoggerInterface $logger,
+        DefaultAuthenticationFailureHandler $authenticationFailureHandler,
         SerializerInterface $serializer,
         TranslatorInterface $translator
     ) {
-        parent::__construct($httpKernel, $httpUtils, $options, $logger);
+        $this->authenticationFailureHandler = $authenticationFailureHandler;
         $this->serializer = $serializer;
         $this->translator = $translator;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->authenticationFailureHandler->getOptions();
+    }
+
+    public function setOptions(array $options): void
+    {
+        $this->authenticationFailureHandler->setOptions($options);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
@@ -60,6 +59,6 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
             } catch (UnsupportedFormatException $e) {}
         }
 
-        return parent::onAuthenticationFailure($request, $exception);
+        return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
     }
 }

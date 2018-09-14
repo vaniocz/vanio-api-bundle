@@ -7,22 +7,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
-use Symfony\Component\Security\Http\HttpUtils;
 
 class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
 {
+    /** @var DefaultAuthenticationSuccessHandler */
+    private $authenticationSuccessHandler;
+
     /** @var SerializerInterface */
     private $serializer;
 
-    /**
-     * @param HttpUtils $httpUtils
-     * @param mixed[] $options
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(HttpUtils $httpUtils, array $options, SerializerInterface $serializer)
-    {
-        parent::__construct($httpUtils, $options);
+    public function __construct(
+        DefaultAuthenticationSuccessHandler $authenticationSuccessHandler,
+        SerializerInterface $serializer
+    ) {
+        $this->authenticationSuccessHandler = $authenticationSuccessHandler;
         $this->serializer = $serializer;
+    }
+
+    public function getOptions(): array
+    {
+        return $this->authenticationSuccessHandler->getOptions();
+    }
+
+    public function setOptions(array $options): void
+    {
+        $this->authenticationSuccessHandler->setOptions($options);
+    }
+
+    public function getProviderKey(): string
+    {
+        return $this->authenticationSuccessHandler->getProviderKey();
+    }
+
+    /**
+     * @param string $providerKey
+     */
+    public function setProviderKey($providerKey): void
+    {
+        $this->authenticationSuccessHandler->setProviderKey($providerKey);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response
@@ -37,6 +59,6 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
             } catch (UnsupportedFormatException $e) {}
         }
 
-        return parent::onAuthenticationSuccess($request, $token);
+        return $this->authenticationSuccessHandler->onAuthenticationSuccess($request, $token);
     }
 }

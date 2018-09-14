@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="security.authentication.success_handler.class">Vanio\ApiBundle\Security\AuthenticationSuccessHandler</parameter>
-        <parameter key="security.authentication.failure_handler.class">Vanio\ApiBundle\Security\AuthenticationFailureHandler</parameter>
         <parameter key="security.logout.success_handler.class">Vanio\ApiBundle\Security\LogoutSuccessHandler</parameter>
         <parameter key="jms_serializer.metadata.doctrine_type_driver.class">Vanio\ApiBundle\Serializer\DoctrineTypeDriver</parameter>
+        <parameter key="vanio_api.security.authentication_failure_handler.class">Vanio\ApiBundle\Security\AuthenticationFailureHandler</parameter>
+        <parameter key="vanio_api.security.authentication_success_handler.class">Vanio\ApiBundle\Security\AuthenticationSuccessHandler</parameter>
         <parameter key="vanio_api.security.access_denied_listener.class">Vanio\ApiBundle\Security\AccessDeniedListener</parameter>
         <parameter key="vanio_api.form.entity_type_extension.class">Vanio\ApiBundle\Form\EntityTypeExtension</parameter>
         <parameter key="vanio_api.request.format_listener.class">Vanio\ApiBundle\Request\FormatListener</parameter>
@@ -31,22 +31,6 @@
 
         <service id="security.authentication.listener.api_form" class="Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener" parent="security.authentication.listener.abstract" public="false" abstract="true"/>
 
-        <service id="security.authentication.success_handler" class="%security.authentication.success_handler.class%" abstract="true">
-            <argument type="service" id="security.http_utils"/>
-            <argument type="collection"/>
-            <argument type="service" id="jms_serializer.serializer"/>
-        </service>
-
-        <service id="security.authentication.failure_handler" class="%security.authentication.failure_handler.class%" abstract="true">
-            <argument type="service" id="http_kernel"/>
-            <argument type="service" id="security.http_utils"/>
-            <argument type="collection"/>
-            <argument type="service" id="logger" on-invalid="null"/>
-            <argument type="service" id="jms_serializer.serializer"/>
-            <argument type="service" id="translator"/>
-            <tag name="monolog.logger" channel="security"/>
-        </service>
-
         <service id="security.logout.success_handler" class="%security.logout.success_handler.class%" abstract="true">
             <argument type="service" id="security.http_utils" />
             <argument>/</argument>
@@ -58,6 +42,17 @@
             <argument type="service" id="jms_serializer.metadata.chain_driver"/>
             <argument type="service" id="doctrine"/>
             <call method="setTypeMapping"><argument>%vanio_api.serializer_doctrine_type_mapping%</argument></call>
+        </service>
+
+        <service id="vanio_api.security.authentication_failure_handler" class="%vanio_api.security.authentication_failure_handler.class%" abstract="true">
+            <argument type="service" id="vanio_api.security.authentication_failure_handler.inner"/>
+            <argument type="service" id="jms_serializer.serializer"/>
+            <argument type="service" id="translator"/>
+        </service>
+
+        <service id="vanio_api.security.authentication_success_handler" class="%vanio_api.security.authentication_success_handler.class%" abstract="true">
+            <argument type="service" id="vanio_api.security.authentication_success_handler.inner"/>
+            <argument type="service" id="jms_serializer.serializer"/>
         </service>
 
         <service id="vanio_api.security.access_denied_listener" class="%vanio_api.security.access_denied_listener.class%" abstract="true">
