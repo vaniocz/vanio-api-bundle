@@ -1,6 +1,7 @@
 <?php
 namespace Vanio\ApiBundle\Security;
 
+use JMS\Serializer\Exception\UnsupportedFormatException;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
