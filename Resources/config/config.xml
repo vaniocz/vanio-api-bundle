@@ -14,6 +14,7 @@
         <parameter key="vanio_api.request.properties_param_converter.class">Vanio\ApiBundle\Request\PropertiesParamConverter</parameter>
         <parameter key="vanio_api.request.query_param_converter.class">Vanio\ApiBundle\Request\QueryParamConverter</parameter>
         <parameter key="vanio_api.request.filter_param_converter.class">Vanio\ApiBundle\Request\FilterParamConverter</parameter>
+        <parameter key="vanio_api.serializer.property_naming_strategy.class">JMS\Serializer\Naming\SerializedNameAnnotationStrategy</parameter>
         <parameter key="vanio_api.serializer.properties_exclusion_strategy.class">Vanio\ApiBundle\Serializer\PropertiesExclusionStrategy</parameter>
         <parameter key="vanio_api.serializer.form_error_handler.class">Vanio\ApiBundle\Serializer\FormErrorHandler</parameter>
         <parameter key="vanio_api.serializer.paginator_handler.class">Vanio\ApiBundle\Serializer\PaginatorHandler</parameter>
@@ -98,6 +99,10 @@
         <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%">
             <argument>%vanio_api.limit_default_options%</argument>
             <tag name="request.param_converter" priority="1" converter="api_filter"/>
+        </service>
+
+        <service id="vanio_api.serializer.property_naming_strategy" class="%vanio_api.serializer.property_naming_strategy.class%">
+            <argument type="service" id="jms_serializer.identical_property_naming_strategy"/>
         </service>
 
         <service id="vanio_api.serializer.properties_exclusion_strategy" class="%vanio_api.serializer.properties_exclusion_strategy.class%" public="true">
