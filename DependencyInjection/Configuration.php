@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('access_denied_listener')->defaultFalse()->end()
                 ->arrayNode('formats')
                     ->scalarPrototype()->end()
-                    ->defaultValue(['json'])
+                    ->defaultValue(['json', 'html'])
                     ->beforeNormalization()
                         ->ifTrue(function ($value) {
                             return !is_array($value);

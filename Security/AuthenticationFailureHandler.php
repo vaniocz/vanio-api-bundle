@@ -42,24 +42,28 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
-        if ($request->getRequestFormat() !== 'html') {
-            try {
-                $error = $this->translator->trans(
-                    $exception->getMessageKey(),
-                    $exception->getMessageData(),
-                    'security'
-                );
-                $data = [
-                    'code' => Response::HTTP_UNAUTHORIZED,
-                    'message' => 'Unauthorized',
-                    'errors' => [$error],
-                ];
-                $content = $this->serializer->serialize($data, $request->getRequestFormat());
+        $response = $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
 
-                return new Response($content, Response::HTTP_UNAUTHORIZED);
-            } catch (UnsupportedFormatException $e) {}
+        if (!$response->isRedirection() || $request->getRequestFormat() === 'html') {
+            return $response;
         }
 
-        return $this->authenticationFailureHandler->onAuthenticationFailure($request, $exception);
+        try {
+            $error = $this->translator->trans(
+                $exception->getMessageKey(),
+                $exception->getMessageData(),
+                'security'
+            );
+            $data = [
+                'code' => Response::HTTP_UNAUTHORIZED,
+                'message' => 'Unauthorized',
+                'errors' => [$error],
+            ];
+            $content = $this->serializer->serialize($data, $request->getRequestFormat());
+
+            return new Response($content, Response::HTTP_UNAUTHORIZED);
+        } catch (UnsupportedFormatException $e) {}
+
+        return $response;
     }
 }
