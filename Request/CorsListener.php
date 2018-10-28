@@ -54,6 +54,7 @@ class CorsListener implements EventSubscriberInterface
             ? array_map('strtoupper', $allowedMethods)
             : self::METHODS;
         $this->allowedHeaders = $allowedHeaders;
+        $this->exposedHeaders = $exposedHeaders;
         $this->areCredentialsAllowed = $areCredentialsAllowed;
         $this->maximumAge = $maximumAge;
     }
@@ -109,7 +110,9 @@ class CorsListener implements EventSubscriberInterface
         $response->headers->set('Access-Control-Allow-Origin', $event->getRequest()->headers->get('Origin'));
 
         if ($this->exposedHeaders) {
-            $response->headers->set('Access-Control-Expose-Headers', implode(', ', $this->exposedHeaders));
+            if ($exposedHeaders = $this->exposedHeaders === true ? $response->headers->keys() : $this->exposedHeaders) {
+                $response->headers->set('Access-Control-Expose-Headers', implode(', ', $exposedHeaders));
+            }
         }
 
         if ($this->areCredentialsAllowed) {
