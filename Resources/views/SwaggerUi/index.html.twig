@@ -219,7 +219,7 @@
 {% endblock %}
 
 {% block swagger_initialization %}
-    {% set swagger_data = {spec: swagger_data.spec + {host: 'palubo-api.local'}} %}
+    {% set swagger_data = {spec: swagger_data.spec + {host: app.request.host}} %}
 
     <script>
         (function (global) {
