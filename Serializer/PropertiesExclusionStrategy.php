@@ -38,7 +38,11 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
 
     public function shouldSkipProperty(PropertyMetadata $property, Context $context): bool
     {
-        $exposedProperties = $this->getExposedProperties($property->class, $context);
+        if (!$entityClassMetadata = $this->getEntityClassMetadata($property->class)) {
+            return false;
+        }
+
+        $exposedProperties = $this->getEntityExposedProperties($entityClassMetadata, $context);
 
         return !isset($exposedProperties[$property->name]);
     }
@@ -46,12 +50,12 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
     /**
      * @return mixed[]
      */
-    private function getExposedProperties(string $class, Context $context): array
+    private function getEntityExposedProperties(ClassMetadataInfo $classMetadata, Context $context): array
     {
         $cacheKey = json_encode([$context->attributes->get('properties')->get(), $context->getCurrentPath()]);
 
         if (!isset($this->exposedProperties[$cacheKey])) {
-            $this->exposedProperties[$cacheKey] = $this->resolveExposedProperties($class, $context);
+            $this->exposedProperties[$cacheKey] = $this->resolveEntityExposedProperties($classMetadata, $context);
         }
 
         return $this->exposedProperties[$cacheKey];
@@ -60,16 +64,11 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
     /**
      * @return mixed[]
      */
-    private function resolveExposedProperties(string $class, Context $context): array
+    private function resolveEntityExposedProperties(ClassMetadataInfo $entityClassMetadata, Context $context): array
     {
         $properties = $context->attributes->get('properties')->get();
         $properties = Arrays::getReference($properties, $context->getCurrentPath()) ?? [];
-        $basicProperties = [];
-
-        foreach ($this->getClassMetadata($class)->fieldMappings as $fieldMapping) {
-            $basicProperties[$fieldMapping['declaredField'] ?? $fieldMapping['fieldName']] = true;
-        }
-
+        $basicProperties = $this->resolveBasicProperties($entityClassMetadata, $context);
         $additionalProperties = [];
         $excludedProperties = [];
 
@@ -98,7 +97,7 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
         return array_diff_key($exposedProperties + $additionalProperties, $excludedProperties);
     }
 
-    private function getClassMetadata(string $class): ClassMetadataInfo
+    private function getEntityClassMetadata(string $class): ?ClassMetadataInfo
     {
         if ($objectManager = $this->doctrine->getManagerForClass($class)) {
             $this->objectManager = $objectManager;
@@ -106,6 +105,22 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
             $this->objectManager = $this->doctrine->getManager();
         }
 
-        return $this->objectManager->getClassMetadata($class);
+        return $this->objectManager->getMetadataFactory()->hasMetadataFor($class)
+            ? $this->objectManager->getClassMetadata($class)
+            : null;
+    }
+
+    /**
+     * @return bool[]
+     */
+    private function resolveBasicProperties(ClassMetadataInfo $entityClassMetadata): array
+    {
+        $basicProperties = [];
+
+        foreach ($entityClassMetadata->fieldMappings as $fieldMapping) {
+            $basicProperties[$fieldMapping['declaredField'] ?? $fieldMapping['fieldName']] = true;
+        }
+
+        return $basicProperties;
     }
 }
