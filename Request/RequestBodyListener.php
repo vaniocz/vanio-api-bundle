@@ -16,17 +16,13 @@ class RequestBodyListener implements EventSubscriberInterface
     /** @var SerializerInterface */
     private $serializer;
 
-    /** @var string[] */
-    private $formats;
+    /** @var string|null */
+    private $defaultContentFormat;
 
-    /**
-     * @param SerializerInterface $serializer
-     * @param string[] $formats
-     */
-    public function __construct(SerializerInterface $serializer, array $formats)
+    public function __construct(SerializerInterface $serializer, ?string $defaultContentFormat)
     {
         $this->serializer = $serializer;
-        $this->formats = array_combine($formats, $formats);
+        $this->defaultContentFormat = $defaultContentFormat;
     }
 
     public function onRequest(GetResponseEvent $event): void
@@ -34,7 +30,7 @@ class RequestBodyListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $methods = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
-        if (!$this->formats || !in_array($request->getMethod(), $methods) || $this->isFormRequest($request)) {
+        if (!in_array($request->getMethod(), $methods) || $this->isFormRequest($request)) {
             return;
         }
 
@@ -45,16 +41,20 @@ class RequestBodyListener implements EventSubscriberInterface
         }
 
         $contentType = $this->resolveRequestContentType($request);
+        $defaultContentFormat = $this->defaultContentFormat ?: $request->getRequestFormat();
         $format = $contentType === null
-            ? $request->getRequestFormat()
-            : $request->getFormat($contentType) ?? current($this->formats);
+            ? $request->attributes->get('_default_content_format', $defaultContentFormat)
+            : $request->getFormat($contentType);
 
         try {
             $data = $this->serializer->deserialize($content, 'array', $format);
         } catch (UnsupportedFormatException $e) {
-            throw new UnsupportedMediaTypeHttpException(sprintf('Request body format "%s" is not supported.', $format));
+            throw new UnsupportedMediaTypeHttpException(sprintf(
+                'Request body content format "%s" is not supported.',
+                $format
+            ));
         } catch (RuntimeException $e) {
-            throw new BadRequestHttpException(sprintf('Malformed "%s" request body.', $format));
+            throw new BadRequestHttpException(sprintf('Malformed "%s" request body content.', $format));
         }
 
         if (is_array($data)) {

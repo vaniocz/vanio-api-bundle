@@ -37,7 +37,6 @@
             <argument type="service" id="security.http_utils" />
             <argument>/</argument>
             <argument type="service" id="jms_serializer.serializer"/>
-            <argument>%vanio_api.formats%</argument>
         </service>
 
         <service id="jms_serializer.metadata.doctrine_type_driver" class="%jms_serializer.metadata.doctrine_type_driver.class%" public="false">
@@ -67,12 +66,13 @@
         </service>
 
         <service id="vanio_api.request.format_listener" class="%vanio_api.request.format_listener.class%" abstract="true">
-            <argument>%vanio_api.formats%</argument>
+            <argument type="service" id="router"/>
+            <argument>%vanio_api.default_acceptable_formats%</argument>
         </service>
 
         <service id="vanio_api.request.request_body_listener" class="%vanio_api.request.request_body_listener.class%" abstract="true">
             <argument type="service" id="jms_serializer.serializer"/>
-            <argument>%vanio_api.formats%</argument>
+            <argument>%vanio_api.default_content_format%</argument>
         </service>
 
         <service id="vanio_api.request.cors_listener" class="%vanio_api.request.cors_listener.class%" abstract="true">
