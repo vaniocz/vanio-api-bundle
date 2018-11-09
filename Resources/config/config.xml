@@ -67,6 +67,7 @@
 
         <service id="vanio_api.request.format_listener" class="%vanio_api.request.format_listener.class%" abstract="true">
             <argument type="service" id="router"/>
+            <argument type="service" id="router.default" on-invalid="null"/>
             <argument>%vanio_api.default_acceptable_formats%</argument>
         </service>
 
