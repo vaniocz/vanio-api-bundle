@@ -97,7 +97,7 @@ class ModelDescriber implements ModelDescriberInterface, ModelRegistryAwareInter
                     $property = $properties->get($this->propertyNamingStrategy->translateName($propertyMetadata));
 
                     if (!is_string($newType)) {
-                        $newType = call_user_func($newType, $propertyMetadata);
+                        $newType = $newType($propertyMetadata);
                     }
 
                     if (is_array($newType)) {
