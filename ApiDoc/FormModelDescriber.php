@@ -74,6 +74,7 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
 
         foreach ($form->all() as $name => $child) {
             $documentation = $child->getConfig()->getOption('documentation');
+
             if (!empty($documentation['type'])) {
                 continue;
             } elseif ($resolvedType = $this->resolveType($child)) {
@@ -109,9 +110,6 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
     {
         $class = $form->getConfig()->getDataClass();
 
-        return [
-            'type' => $class::{'scalarType'}(),
-            'example' => 1,
-        ];
+        return ['type' => $class::{'scalarType'}()];
     }
 }
