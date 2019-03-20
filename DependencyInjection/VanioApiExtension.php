@@ -31,6 +31,10 @@ class VanioApiExtension extends Extension implements PrependExtensionInterface
                 $container->getDefinition($id)->setAbstract(false)->addTag('kernel.event_subscriber');
             }
         }
+
+        if (isset($container->getParameter('kernel.bundles')['NelmioApiDocBundle'])) {
+            $loader->load('api_doc.xml');
+        }
     }
 
     public function prepend(ContainerBuilder $container): void

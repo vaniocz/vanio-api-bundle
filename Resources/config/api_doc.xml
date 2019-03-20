@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="vanio_api.api_doc.filter_describer.class">Vanio\ApiBundle\ApiDoc\FilterDescriber</parameter>
+        <parameter key="vanio_api.api_doc.form_model_describer.class">Vanio\ApiBundle\ApiDoc\FormModelDescriber</parameter>
+        <parameter key="vanio_api.api_doc.model_describer.class">Vanio\ApiBundle\ApiDoc\ModelDescriber</parameter>
+    </parameters>
+
+    <services>
+        <defaults public="false"/>
+
+        <service id="vanio_api.api_doc.filter_describer" class="%vanio_api.api_doc.filter_describer.class%">
+            <tag name="nelmio_api_doc.route_describer"/>
+        </service>
+
+        <service id="vanio_api.api_doc.form_model_describer" class="%vanio_api.api_doc.form_model_describer.class%" decorates="nelmio_api_doc.model_describers.form">
+            <argument type="service" id="vanio_api.api_doc.form_model_describer.inner"/>
+            <argument type="service" id="form.factory"/>
+            <call method="setTypeMapping"><argument>%vanio_api.api_doc_type_mapping%</argument></call>
+        </service>
+
+        <service id="vanio_api.api_doc.model_describer" class="%vanio_api.api_doc.model_describer.class%" decorates="nelmio_api_doc.model_describers.jms">
+            <argument type="service" id="vanio_api.api_doc.model_describer.inner"/>
+            <argument type="service" id="jms_serializer.metadata_factory"/>
+            <argument type="service" id="jms_serializer.naming_strategy"/>
+            <call method="setTypeMapping"><argument>%vanio_api.api_doc_type_mapping%</argument></call>
+        </service>
+    </services>
+</container>

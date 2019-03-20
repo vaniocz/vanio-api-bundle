@@ -16,7 +16,6 @@ class VanioApiBundle extends Bundle
     {
         $container
             ->addCompilerPass(new DecorateAuthenticationHandlersPass)
-            ->addCompilerPass(new DecorateJmsModelDescriberPass)
             ->addCompilerPass(new PrioritizeAddRequestFormatsListenerPass)
             ->addCompilerPass(new RegisterExpressionLanguageProviderPass);
         /** @var SecurityExtension $securityExtension */
