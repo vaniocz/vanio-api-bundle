@@ -48,7 +48,6 @@
             <argument type="service" id="jms_serializer.serializer"/>
             <argument type="service" id="translator"/>
         </service>
-        <service id="Vanio\ApiBundle\Security\AuthenticationFailureHandler" alias="vanio_api.security.authentication_failure_handler"/>
 
         <service id="vanio_api.security.authentication_success_handler" class="%vanio_api.security.authentication_success_handler.class%" abstract="true">
             <argument type="service" id="vanio_api.security.authentication_success_handler.inner"/>
