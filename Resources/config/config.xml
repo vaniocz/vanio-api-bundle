@@ -57,6 +57,7 @@
         <service id="vanio_api.security.access_denied_listener" class="%vanio_api.security.access_denied_listener.class%" abstract="true">
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="security.authentication.trust_resolver"/>
+            <argument type="service" id="jms_serializer.serializer"/>
         </service>
 
         <service id="vanio_api.form.entity_type_extension" class="%vanio_api.form.entity_type_extension.class%">

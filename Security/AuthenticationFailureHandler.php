@@ -48,18 +48,33 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
             return $response;
         }
 
-        try {
-            $error = $this->translator->trans(
-                $exception->getMessageKey(),
-                $exception->getMessageData(),
-                'security'
+        $format = $request->getRequestFormat();
+        $error = $this->translator->trans($exception->getMessageKey(), $exception->getMessageData(), 'security');
+
+        if ($format === 'xml') {
+            return sprintf(
+                '<?xml version="1.0" encoding="UTF-8"?>
+                    <response>
+                      <code>%d</code>
+                      <message><![CDATA[%s]]></message>
+                      <errors>
+                        <error><![CDATA[%s]]></error>
+                      </errors>
+                    </response>
+                ',
+                Response::HTTP_UNAUTHORIZED,
+                'Unauthorized',
+                $error
             );
+        }
+
+        try {
             $data = [
                 'code' => Response::HTTP_UNAUTHORIZED,
                 'message' => 'Unauthorized',
                 'errors' => [$error],
             ];
-            $content = $this->serializer->serialize($data, $request->getRequestFormat());
+            $content = $this->serializer->serialize($data, $format);
 
             return new Response($content, Response::HTTP_UNAUTHORIZED);
         } catch (UnsupportedFormatException $e) {}
