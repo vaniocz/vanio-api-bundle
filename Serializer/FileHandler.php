@@ -11,7 +11,7 @@ class FileHandler implements SubscribingHandlerInterface
 {
     public function serialize(VisitorInterface $visitor, File $file): string
     {
-        return $file->fileName();
+        return $file->fileName() ?? '';
     }
 
     /**
