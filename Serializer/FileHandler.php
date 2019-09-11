@@ -9,7 +9,7 @@ use Vanio\DomainBundle\Model\Image;
 
 class FileHandler implements SubscribingHandlerInterface
 {
-    public function serialize(VisitorInterface $visitor, File $file): string
+    public function serialize(VisitorInterface $visitor, File $file): ?string
     {
         return $file->fileName();
     }
