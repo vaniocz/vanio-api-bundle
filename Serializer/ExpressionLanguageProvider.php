@@ -1,8 +1,10 @@
 <?php
 namespace Vanio\ApiBundle\Serializer;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
+use Vanio\DoctrineGenericTypes\DBAL\ScalarObject;
 
 class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {
@@ -18,11 +20,34 @@ class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
     {
         return new ExpressionFunction(
             'entity',
-            function (string $class, string $id) {
-                return sprintf('$this->get("doctrine")->getManagerForClass(%s)->find(%s, %s)', $class, $class, $id);
+            function (string $class, $criteria) {
+                $class = json_encode($class);
+                $entityRepository = "\$this->get('doctrine')->getManagerForClass({$class})->getRepository({$class})";
+
+                if (is_array($criteria)) {
+                    foreach ($criteria as $property => &$value) {
+                        if ($value instanceof ScalarObject) {
+                            $value = $value->scalarValue();
+                        }
+                    }
+
+                    $criteria = var_export($criteria, true);
+
+                    return "{$entityRepository}->findOneBy({$criteria})";
+                }
+
+                $criteria = json_encode($criteria);
+
+                return "{$entityRepository}->find({$criteria})";
             },
-            function (array $variables, string $class, $id) {
-                return $variables['container']->get('doctrine')->getManagerForClass($class)->find($class, $id);
+            function (array $variables, string $class, $criteria) {
+                $entityManager = $variables['container']->get('doctrine')->getManagerForClass($class);
+                assert($entityManager instanceof EntityManager);
+                $entityRepository = $entityManager->getRepository($class);
+
+                return is_array($criteria)
+                    ? $entityRepository->findOneBy($criteria)
+                    : $entityRepository->find($criteria);
             }
         );
     }
