@@ -97,6 +97,7 @@
         </service>
 
         <service id="vanio_api.request.filter_param_converter" class="%vanio_api.request.filter_param_converter.class%">
+            <argument type="service" id="translator"/>
             <argument>%vanio_api.limit_default_options%</argument>
             <tag name="request.param_converter" priority="1" converter="api_filter"/>
         </service>
