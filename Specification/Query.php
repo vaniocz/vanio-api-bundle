@@ -20,8 +20,7 @@ class Query implements QueryModifier
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-     * @param QueryBuilder $queryBuilder
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param string|null $dqlAlias
      */
     public function modify(QueryBuilder $queryBuilder, $dqlAlias): void

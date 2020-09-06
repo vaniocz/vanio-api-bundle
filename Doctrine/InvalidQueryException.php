@@ -16,22 +16,6 @@ class InvalidQueryException extends \Exception implements HttpExceptionInterface
     public const CODE_UNKNOWN_FIELD = 4;
     public const CODE_UNKNOWN_ASSOCIATION = 5;
 
-    public static function invalidDqlCondition(QueryException $exception, int $conditionOffset): \Throwable
-    {
-        return self::unknownField($exception)
-            ?: self::invalidDql($exception, $conditionOffset)
-            ?: $exception;
-    }
-
-    public static function invalidSql(DriverException $exception): \Throwable
-    {
-        if (preg_match('~invalid input syntax for type .+: ".+"~', $exception->getMessage(), $matches)) {
-            return new static(sprintf('%s.', ucfirst($matches[0])), self::CODE_INVALID_SQL, $exception);
-        }
-
-        return $exception;
-    }
-
     public static function forbidden(string $message): self
     {
         return new static(sprintf('Invalid DQL query: %s.', $message), self::CODE_FORBIDDEN);
@@ -50,6 +34,22 @@ class InvalidQueryException extends \Exception implements HttpExceptionInterface
         return [];
     }
 
+    public static function invalidDqlCondition(QueryException $exception, int $conditionOffset): \Throwable
+    {
+        return self::unknownField($exception)
+            ?: self::invalidDql($exception, $conditionOffset)
+            ?: $exception;
+    }
+
+    public static function invalidSql(DriverException $exception): \Throwable
+    {
+        if (preg_match('~invalid input syntax for type .+: ".+"~', $exception->getMessage(), $matches)) {
+            return new static(sprintf('%s.', ucfirst($matches[0])), self::CODE_INVALID_SQL, $exception);
+        }
+
+        return $exception;
+    }
+
     private static function unknownField(QueryException $exception): ?self
     {
         $message = $exception->getMessage();
@@ -57,7 +57,7 @@ class InvalidQueryException extends \Exception implements HttpExceptionInterface
         if (preg_match('~Class (.+) has no ((?:field or )?association) named (.*)~', $message, $matches)) {
             return new static(
                 sprintf('The entity %s has no %s "%s".', Strings::baseName($matches[1]), $matches[2], $matches[3]),
-                $matches[2] == 'association' ? self::CODE_UNKNOWN_ASSOCIATION : self::CODE_UNKNOWN_FIELD,
+                $matches[2] === 'association' ? self::CODE_UNKNOWN_ASSOCIATION : self::CODE_UNKNOWN_FIELD,
                 $exception
             );
         }

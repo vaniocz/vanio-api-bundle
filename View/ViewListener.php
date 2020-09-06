@@ -93,7 +93,6 @@ class ViewListener implements EventSubscriberInterface
     }
 
     /**
-     * @param Request $request
      * @return mixed[]|null
      */
     private function guessProperties(Request $request): ?array

@@ -30,11 +30,17 @@ class AuthenticationFailureHandler extends DefaultAuthenticationFailureHandler
         $this->translator = $translator;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getOptions(): array
     {
         return $this->authenticationFailureHandler->getOptions();
     }
 
+    /**
+     * @param mixed[] $options
+     */
     public function setOptions(array $options): void
     {
         $this->authenticationFailureHandler->setOptions($options);

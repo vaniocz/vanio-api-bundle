@@ -16,7 +16,6 @@ class EntityTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @param FormBuilderInterface $builder
      * @param mixed[] $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options = []): void

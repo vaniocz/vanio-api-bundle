@@ -160,7 +160,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param AggregateExpression $aggregateExpression
      */
     public function walkAggregateExpression($aggregateExpression): void
@@ -190,7 +190,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param WhereClause $whereClause
      */
     public function walkWhereClause($whereClause): void
@@ -237,7 +237,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param ConditionalPrimary $primary
      */
     public function walkConditionalPrimary($primary): void
@@ -260,7 +260,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param CollectionMemberExpression $collectionMemberExpression
      */
     public function walkCollectionMemberExpression($collectionMemberExpression): void
@@ -271,7 +271,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param NullComparisonExpression $nullComparisonExpression
      */
     public function walkNullComparisonExpression($nullComparisonExpression): void
@@ -284,7 +284,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param InExpression $inExpression
      */
     public function walkInExpression($inExpression): void
@@ -317,7 +317,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param BetweenExpression $betweenExpression
      */
     public function walkBetweenExpression($betweenExpression): void
@@ -328,7 +328,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param LikeExpression $likeExpression
      */
     public function walkLikeExpression($likeExpression): void
@@ -341,7 +341,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param ComparisonExpression $comparisonExpression
      */
     public function walkComparisonExpression($comparisonExpression): void
@@ -364,7 +364,7 @@ class SafeConditionWalker extends TreeWalkerAdapter
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param ArithmeticExpression $arithmeticExpression
      */
     public function walkArithmeticExpression($arithmeticExpression): void

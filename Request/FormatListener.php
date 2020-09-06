@@ -21,9 +21,6 @@ class FormatListener implements EventSubscriberInterface
     private $defaultAcceptableFormats;
 
     /**
-     * FormatListener constructor.
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param UrlGeneratorInterface|null $defaultUrlGenerator
      * @param string[] $defaultAcceptableFormats
      */
     public function __construct(
@@ -60,8 +57,9 @@ class FormatListener implements EventSubscriberInterface
         return [KernelEvents::REQUEST => 'onRequest'];
     }
 
-    private function resolveConfigurableRequirementsUrlGenerator(UrlGeneratorInterface $urlGenerator): ?ConfigurableRequirementsInterface
-    {
+    private function resolveConfigurableRequirementsUrlGenerator(
+        UrlGeneratorInterface $urlGenerator
+    ): ?ConfigurableRequirementsInterface {
         if ($urlGenerator instanceof ConfigurableRequirementsInterface) {
             return $urlGenerator;
         } elseif ($urlGenerator instanceof Router) {

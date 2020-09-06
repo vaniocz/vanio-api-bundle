@@ -102,11 +102,7 @@ class AccessDeniedListener implements EventSubscriberInterface
 
     private function createUnauthorizedResponse(string $format): Response
     {
-        $content = $this->serializeExceptionContent(
-            Response::HTTP_UNAUTHORIZED,
-            'You are not authenticated.',
-            $format
-        );
+        $content = $this->serializeExceptionContent(Response::HTTP_UNAUTHORIZED, 'You are not authenticated.', $format);
 
         return new Response($content, Response::HTTP_UNAUTHORIZED);
     }

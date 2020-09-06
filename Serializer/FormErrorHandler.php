@@ -10,7 +10,6 @@ use Symfony\Component\Form\FormView;
 class FormErrorHandler implements SubscribingHandlerInterface
 {
     /**
-     * @param VisitorInterface $visitor
      * @param Form|FormView $form
      * @return mixed[]
      */

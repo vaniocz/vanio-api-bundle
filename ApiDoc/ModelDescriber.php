@@ -81,8 +81,9 @@ class ModelDescriber implements ModelDescriberInterface, ModelRegistryAwareInter
 
         $properties = $schema->getProperties();
 
-        /** @var PropertyMetadata $propertyMetadata */
         foreach ($metadata->propertyMetadata as $propertyMetadata) {
+            assert($propertyMetadata instanceof PropertyMetadata);
+
             if (
                 isset($groupExclusionStrategy)
                 && $groupExclusionStrategy->shouldSkipProperty($propertyMetadata, SerializationContext::create())

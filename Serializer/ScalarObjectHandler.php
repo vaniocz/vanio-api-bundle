@@ -14,8 +14,6 @@ use Vanio\DoctrineGenericTypes\DBAL\ScalarObject;
 class ScalarObjectHandler implements SubscribingHandlerInterface, EventSubscriberInterface
 {
     /**
-     * @param VisitorInterface $visitor
-     * @param ScalarObject $scalarObject
      * @return string|int|float|bool
      */
     public function serialize(VisitorInterface $visitor, ScalarObject $scalarObject)
@@ -24,10 +22,8 @@ class ScalarObjectHandler implements SubscribingHandlerInterface, EventSubscribe
     }
 
     /**
-     * @param VisitorInterface $visitor
      * @param string|int|float|bool $value
      * @param mixed[] $type
-     * @return ScalarObject
      */
     public function deserialize(VisitorInterface $visitor, $value, array $type): ScalarObject
     {

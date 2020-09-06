@@ -24,11 +24,17 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
         $this->serializer = $serializer;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getOptions(): array
     {
         return $this->authenticationSuccessHandler->getOptions();
     }
 
+    /**
+     * @param mixed[] $options
+     */
     public function setOptions(array $options): void
     {
         $this->authenticationSuccessHandler->setOptions($options);
@@ -40,6 +46,7 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param string $providerKey
      */
     public function setProviderKey($providerKey): void

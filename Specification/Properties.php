@@ -13,7 +13,6 @@ class Properties implements QueryModifier
 
     /**
      * @param mixed[] $properties
-     * @param string|null $dqlAlias
      */
     public function __construct(array $properties, ?string $dqlAlias = null)
     {
@@ -57,8 +56,7 @@ class Properties implements QueryModifier
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
-     * @param QueryBuilder $queryBuilder
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param string $dqlAlias
      */
     public function modify(QueryBuilder $queryBuilder, $dqlAlias): void
@@ -69,9 +67,6 @@ class Properties implements QueryModifier
     }
 
     /**
-     * @param QueryBuilder $queryBuilder
-     * @param ClassMetadata $classMetadata
-     * @param string $dqlAlias
      * @param mixed[] $properties
      */
     private function joinAssociations(

@@ -30,7 +30,7 @@ class RequestBodyListener implements EventSubscriberInterface
         $request = $event->getRequest();
         $methods = ['POST', 'PUT', 'PATCH', 'DELETE'];
 
-        if (!in_array($request->getMethod(), $methods) || $this->isFormRequest($request)) {
+        if (!in_array($request->getMethod(), $methods, true) || $this->isFormRequest($request)) {
             return;
         }
 
@@ -72,10 +72,9 @@ class RequestBodyListener implements EventSubscriberInterface
 
     private function isFormRequest(Request $request): bool
     {
-        return in_array(strtolower($this->resolveRequestContentType($request)), [
-            'multipart/form-data',
-            'application/x-www-form-urlencoded',
-        ]);
+        $formContentTypes = ['multipart/form-data', 'application/x-www-form-urlencoded'];
+
+        return in_array(strtolower($this->resolveRequestContentType($request)), $formContentTypes, true);
     }
 
     private function resolveRequestContentType(Request $request): ?string

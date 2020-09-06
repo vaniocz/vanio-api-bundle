@@ -26,7 +26,6 @@ class View
 
     /**
      * @param mixed $data
-     * @param int|null $statusCode
      * @param mixed[] $headers
      */
     public function __construct($data = null, ?int $statusCode = null, array $headers = [])

@@ -39,7 +39,6 @@ class CorsListener implements EventSubscriberInterface
      * @param string[]|bool $allowedMethods
      * @param string[]|bool $allowedHeaders
      * @param string[]|bool $exposedHeaders
-     * @param bool $areCredentialsAllowed
      */
     public function __construct(
         $allowedOrigins = [],
@@ -57,14 +56,6 @@ class CorsListener implements EventSubscriberInterface
         $this->exposedHeaders = $exposedHeaders;
         $this->areCredentialsAllowed = $areCredentialsAllowed;
         $this->maximumAge = $maximumAge;
-    }
-
-    /**
-     * @return mixed[]
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [KernelEvents::REQUEST => ['onRequest', 1024]];
     }
 
     /**
@@ -118,6 +109,14 @@ class CorsListener implements EventSubscriberInterface
         if ($this->areCredentialsAllowed) {
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
         }
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [KernelEvents::REQUEST => ['onRequest', 1024]];
     }
 
     private function createPreflightResponse(Request $request): Response

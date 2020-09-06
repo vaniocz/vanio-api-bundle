@@ -10,8 +10,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class VanioApiExtension extends Extension implements PrependExtensionInterface
 {
     /**
-     * @param mixed[] $configs
-     * @param ContainerBuilder $container
+     * @param string[] $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -48,8 +47,6 @@ class VanioApiExtension extends Extension implements PrependExtensionInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string $name
      * @param mixed $value
      */
     private function setContainerRecursiveParameter(ContainerBuilder $container, string $name, $value): void

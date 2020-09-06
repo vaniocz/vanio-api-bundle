@@ -25,11 +25,11 @@ class ApiFormFactory extends FormLoginFactory
     }
 
     /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param ContainerBuilder $container
      * @param string $id
      * @param mixed[] $config
      * @param string $userProvider
-     * @return string
      */
     protected function createListener($container, $id, $config, $userProvider): string
     {

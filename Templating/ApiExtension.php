@@ -38,8 +38,6 @@ class ApiExtension extends AbstractExtension implements GlobalsInterface
 
     /**
      * @param mixed $data
-     * @param string $format
-     * @return string
      */
     public function serialize($data, string $format = 'json'): string
     {

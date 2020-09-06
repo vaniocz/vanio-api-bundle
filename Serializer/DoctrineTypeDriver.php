@@ -9,7 +9,6 @@ use Ramsey\Uuid\Uuid;
 
 class DoctrineTypeDriver extends BaseDoctrineTypeDriver
 {
-    /** @var string[] */
     private const DEFAULT_TYPE_MAPPING = ['uuid' => Uuid::class];
 
     /** @var string[] */
@@ -35,9 +34,8 @@ class DoctrineTypeDriver extends BaseDoctrineTypeDriver
     }
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
      * @param string $type
-     * @return string|null
      */
     protected function normalizeFieldType($type): ?string
     {

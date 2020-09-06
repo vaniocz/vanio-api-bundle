@@ -67,11 +67,13 @@ class PropertiesExclusionStrategy implements ExclusionStrategyInterface
     private function resolveEntityExposedProperties(ClassMetadataInfo $entityClassMetadata, Context $context): array
     {
         $properties = $context->attributes->get('properties')->get();
+
         try {
             $properties = Arrays::getReference($properties, $context->getCurrentPath()) ?? [];
         } catch (\InvalidArgumentException $e) {
             $properties = [];
         }
+
         $basicProperties = $this->resolveBasicProperties($entityClassMetadata, $context);
         $additionalProperties = [];
         $excludedProperties = [];

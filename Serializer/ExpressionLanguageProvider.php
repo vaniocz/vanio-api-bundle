@@ -25,7 +25,7 @@ class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
                 $entityRepository = "\$this->get('doctrine')->getManagerForClass({$class})->getRepository({$class})";
 
                 if (is_array($criteria)) {
-                    foreach ($criteria as $property => &$value) {
+                    foreach ($criteria as &$value) {
                         if ($value instanceof ScalarObject) {
                             $value = $value->scalarValue();
                         }

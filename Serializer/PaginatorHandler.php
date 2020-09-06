@@ -11,10 +11,7 @@ use JMS\Serializer\VisitorInterface;
 class PaginatorHandler implements SubscribingHandlerInterface
 {
     /**
-     * @param VisitorInterface $visitor
-     * @param Paginator $paginator
      * @param mixed[] $type
-     * @param Context $context
      * @return object[]
      */
     public function serialize(VisitorInterface $visitor, Paginator $paginator, array $type, Context $context): array

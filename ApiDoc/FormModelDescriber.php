@@ -2,8 +2,6 @@
 namespace Vanio\ApiBundle\ApiDoc;
 
 use EXSyst\Component\Swagger\Schema;
-use Metadata\MetadataFactoryInterface;
-use Metadata\PropertyMetadata;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareInterface;
 use Nelmio\ApiDocBundle\Describer\ModelRegistryAwareTrait;
 use Nelmio\ApiDocBundle\Model\Model;
@@ -26,16 +24,11 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
     /** @var ModelDescriberInterface */
     private $modelDescriber;
 
-    /** @var MetadataFactoryInterface */
-    private $metadataFactory;
-
     /** @var FormFactoryInterface */
     private $formFactory;
 
-    public function __construct(
-        ModelDescriberInterface $modelDescriber,
-        FormFactoryInterface $formFactory
-    ) {
+    public function __construct(ModelDescriberInterface $modelDescriber, FormFactoryInterface $formFactory)
+    {
         $this->modelDescriber = $modelDescriber;
         $this->formFactory = $formFactory;
         $this->defaultTypeMapping = [
@@ -68,6 +61,21 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
         $this->describeForm($schema, $form);
     }
 
+    public function supports(Model $model): bool
+    {
+        return $this->modelDescriber->supports($model);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function resolveScalarObjectType(FormInterface $form): array
+    {
+        $class = $form->getConfig()->getDataClass();
+
+        return ['type' => $class::{'scalarType'}()];
+    }
+
     private function describeForm(Schema $schema, FormInterface $form): void
     {
         $properties = $schema->getProperties();
@@ -84,7 +92,7 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
     }
 
     /**
-     * @return mixed[]|null
+     * @return string[]|null
      */
     private function resolveType(FormInterface $form): ?array
     {
@@ -99,17 +107,5 @@ class FormModelDescriber implements ModelDescriberInterface, ModelRegistryAwareI
         } while ($formType = $formType->getParent());
 
         return null;
-    }
-
-    public function supports(Model $model): bool
-    {
-        return $this->modelDescriber->supports($model);
-    }
-
-    public function resolveScalarObjectType(FormInterface $form): array
-    {
-        $class = $form->getConfig()->getDataClass();
-
-        return ['type' => $class::{'scalarType'}()];
     }
 }
